@@ -81,6 +81,9 @@
     <ClCompile Include="Gift.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -158,6 +161,9 @@
     <ClInclude Include="Gift.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -175,6 +181,8 @@
     <Text Include="minigrass.txt" />
     <Text Include="gift.txt" />
     <Text Include="organeblock.txt" />
+    <Text Include="blueblock.txt" />
+    <Text Include="pipe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

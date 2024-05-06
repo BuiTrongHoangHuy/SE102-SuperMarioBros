@@ -12,6 +12,7 @@
 #include "BackGroundObject.h"
 #include "SampleKeyEventHandler.h"
 #include "Gift.h"
+#include "Pipe.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -120,7 +121,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_GIFT: obj = new CGift(x, y); break;
-
+	case OBJECT_TYPE_PIPE:	obj = new CPipe(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 
