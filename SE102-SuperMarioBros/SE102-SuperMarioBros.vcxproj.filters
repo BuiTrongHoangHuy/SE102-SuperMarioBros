@@ -75,6 +75,12 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BackGroundObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gift.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -146,6 +152,12 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BackGroundObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gift.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -157,6 +169,11 @@
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />
     <Text Include="scene0005.txt" />
+    <Text Include="SceneStage1.txt" />
+    <Text Include="grass.txt" />
+    <Text Include="floor.txt" />
+    <Text Include="minigrass.txt" />
+    <Text Include="gift.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

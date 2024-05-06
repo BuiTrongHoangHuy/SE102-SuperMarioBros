@@ -9,9 +9,9 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
+#include "BackGroundObject.h"
 #include "SampleKeyEventHandler.h"
-
+#include "Gift.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -119,6 +119,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+	case OBJECT_TYPE_GIFT: obj = new CGift(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -136,6 +137,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			sprite_begin, sprite_middle, sprite_end
 		);
 
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUNDOBJECT: 
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		int sprite = atoi(tokens[5].c_str());
+		obj = new CBackGroundObject(
+			x, y,width,height,sprite
+		);
 		break;
 	}
 
