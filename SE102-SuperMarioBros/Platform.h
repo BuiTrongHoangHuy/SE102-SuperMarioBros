@@ -26,6 +26,8 @@ public:
 		this->spriteIdEnd = sprite_id_end;
 	}
 
+	int IsDirectionColliable(float nx, float ny);
+
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
