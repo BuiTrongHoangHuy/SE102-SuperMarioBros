@@ -9,5 +9,7 @@
 104000	347	38	410	149	30
 #green block
 105000	347	118	442	149	30
+#shadow white block
+104001	411	46	418	117	30
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

@@ -19,3 +19,4 @@ height	240
 20	textures\misc.png
 30	textures\ObjectBackground.png
 40	textures\sprite1.png
+50	textures\SpriteMarioNes3.png
