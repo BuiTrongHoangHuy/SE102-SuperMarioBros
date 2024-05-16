@@ -21,7 +21,6 @@ public:
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
-	int IsBlocking() { return 1; }
 	virtual int IsCollidable() { return 1; };
 	void Open() {
 		if (isOpened == false) {
