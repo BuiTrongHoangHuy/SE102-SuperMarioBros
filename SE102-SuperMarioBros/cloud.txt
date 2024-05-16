@@ -4,5 +4,9 @@
 52000	408	117	423	132	20
 53000	426	117	441	132	20
 
+#Single cloud
+130000	130	1	161	24	50
+#DoubleC Cloud
+130500	75	2	122	25	50
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

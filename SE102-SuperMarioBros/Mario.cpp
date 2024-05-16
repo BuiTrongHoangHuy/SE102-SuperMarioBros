@@ -99,9 +99,11 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	coin++;
 }
 void CMario::OnCollisionWithGift(LPCOLLISIONEVENT e) {
-	if (e->ny > 0) {
 		CGift* gift = dynamic_cast<CGift*>(e->obj);
-		gift->Open();
+	if (e->ny > 0) {
+		if (gift->GetState() != GIFT_STATE_OPENED) {
+			gift->SetState(GIFT_STATE_OPENED);
+		}
 	}
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
