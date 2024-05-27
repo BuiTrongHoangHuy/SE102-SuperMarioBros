@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Mushroom.h"
 #include "PlayScene.h"
+#include "Coin.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;
@@ -80,6 +81,15 @@ void CGift::OpenGift() {
 		}
 	}
 	else {
-	
+		LPGAMEOBJECT coin = new CCoin(x, y);
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+		if (this != nullptr) {
+			p->AddFowardNewObject(coin, this);
+		}
 	}
+}
+
+int CGift::GetType() {
+	return this->typeGift;
 }

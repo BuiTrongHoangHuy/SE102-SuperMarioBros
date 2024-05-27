@@ -1,4 +1,5 @@
 #include "Coin.h"
+#include "Gift.h"
 
 void CCoin::Render()
 {
@@ -15,3 +16,17 @@ void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + COIN_BBOX_WIDTH;
 	b = t + COIN_BBOX_HEIGHT;
 }
+void CCoin:: OnNoCollision(DWORD dt) {
+	x += vx * dt;
+	y += vy * dt;
+}
+void CCoin:: OnCollisionWith(LPCOLLISIONEVENT e) {
+	//CGift* gift = dynamic_cast<CGift*>(e->obj);
+	if (dynamic_cast<CGift*>(e->obj)) {
+		if (e->ny == -1) {
+			this->Delete();
+			
+		}
+	}
+}
+

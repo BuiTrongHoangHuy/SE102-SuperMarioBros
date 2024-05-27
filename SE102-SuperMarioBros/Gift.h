@@ -29,4 +29,5 @@ public:
 	virtual int IsCollidable() { return 1; };
 	void OpenGift();
 	virtual void SetState(int state);
+	int GetType();
 };

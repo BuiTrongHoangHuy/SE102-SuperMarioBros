@@ -107,6 +107,9 @@ void CMario::OnCollisionWithGift(LPCOLLISIONEVENT e) {
 		if (gift->GetState() == GIFT_STATE_CLOSED ) {
 			gift->SetState(GIFT_STATE_PREOPENED);
 		}
+		if (gift->GetType() == 1) {
+			coin++;
+		}
 	}
 }
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
