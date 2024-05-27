@@ -30,4 +30,7 @@ public:
 	void OpenGift();
 	virtual void SetState(int state);
 	int GetType();
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnNoCollision(DWORD dt);
+
 };

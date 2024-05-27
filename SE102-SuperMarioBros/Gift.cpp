@@ -37,6 +37,7 @@ void CGift::SetState(int state)
 		break;
 	case GIFT_STATE_OPENED:
 		ay = 0; 
+		vy = 0;
 		break;
 	}
 	
@@ -44,6 +45,10 @@ void CGift::SetState(int state)
 
 void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+
 	if (state == GIFT_STATE_PREOPENED) {
 		vy += ay * dt;
 		y += vy * dt;
@@ -54,12 +59,7 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y = minHeight;
 		SetState(GIFT_STATE_OPENED);
 		OpenGift();
-
 	}
-	
-	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
-	
 }
 
 CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
@@ -70,18 +70,32 @@ CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
 	SetState(GIFT_STATE_CLOSED);
 }
 
+void CGift::OnCollisionWith(LPCOLLISIONEVENT e)
+{
+	if (!e->obj->IsBlocking()) return;
+	if (dynamic_cast<CMario*>(e->obj) != nullptr) {
+		if (state == GIFT_STATE_CLOSED) {
+			SetState(GIFT_STATE_PREOPENED);
+		}
+	}
+}
+void CGift::OnNoCollision(DWORD dt)
+{
+	/*x += vx * dt;
+	y += vy * dt;*/
+}
+
 void CGift::OpenGift() {
 	if (this->typeGift == 1) {
 		LPGAMEOBJECT mushroom = new CMushroom(x, y);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
-		//LPGAMEOBJECT object = dynamic_cast<CGameObject*>();
 		if (this != nullptr) {
 			p->AddFowardNewObject(mushroom,this );
 		}
 	}
 	else {
-		LPGAMEOBJECT coin = new CCoin(x, y);
+		LPGAMEOBJECT coin = new CCoin(x, y, 1);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
 		if (this != nullptr) {
