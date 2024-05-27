@@ -10,6 +10,7 @@
 
 #include "Collision.h"
 #include "Gift.h"
+#include "Mushroom.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -57,6 +58,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CGift*>(e->obj))
 		OnCollisionWithGift(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -105,6 +108,18 @@ void CMario::OnCollisionWithGift(LPCOLLISIONEVENT e) {
 			gift->SetState(GIFT_STATE_PREOPENED);
 		}
 	}
+}
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
+{
+	CMushroom* mushroom = dynamic_cast<CMushroom*>(e->obj);
+	if (mushroom->GetState() == MUSHROOM_STATE_WALKING) {
+		mushroom->SetState(MUSHROOM_STATE_EATEN);
+	}
+	if (level == MARIO_LEVEL_SMALL) {
+		SetLevel(MARIO_LEVEL_BIG);
+	}
+	e->obj->Delete();
+	
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {

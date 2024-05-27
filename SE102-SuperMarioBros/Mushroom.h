@@ -11,8 +11,9 @@
 		
 #define MUSHROOM_STATE_APPEAR 100
 #define MUSHROOM_STATE_WALKING 200
+#define MUSHROOM_STATE_EATEN 300
 
-#define ID_ANI_MUSHROOM 5000
+#define ID_ANI_MUSHROOM 145000
 #define ID_ANI_GOOMBA_WALKING 5000
 #define ID_ANI_GOOMBA_DIE 5001
 
@@ -21,7 +22,7 @@ class CMushroom : public CGameObject
 protected:
 	float ax;
 	float ay;
-
+	float posY;
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

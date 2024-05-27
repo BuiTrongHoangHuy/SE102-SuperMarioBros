@@ -52,26 +52,34 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = 0;
 		y = minHeight;
 		SetState(GIFT_STATE_OPENED);
+		OpenGift();
+
 	}
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	OpenGift();
+	
 }
 
 CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
 	this->ay = 0.000f;
 	maxHeight = y - 15;
 	minHeight = y;
-	typeGift = typeGift;
+	this->typeGift = typeGift;
 	SetState(GIFT_STATE_CLOSED);
 }
 
 void CGift::OpenGift() {
-	if (typeGift == 1) {
+	if (this->typeGift == 1) {
 		LPGAMEOBJECT mushroom = new CMushroom(x, y);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
-		p->AddFowardNewObject(mushroom, this);
+		//LPGAMEOBJECT object = dynamic_cast<CGameObject*>();
+		if (this != nullptr) {
+			p->AddFowardNewObject(mushroom,this );
+		}
+	}
+	else {
+	
 	}
 }
