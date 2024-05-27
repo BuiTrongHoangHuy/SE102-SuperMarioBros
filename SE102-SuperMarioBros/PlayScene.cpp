@@ -13,6 +13,7 @@
 #include "SampleKeyEventHandler.h"
 #include "Gift.h"
 #include "Pipe.h"
+#include "Turtle.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -128,6 +129,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int typeGift = (int)atoi(tokens[3].c_str());
 		obj = new CGift(x, y, typeGift); 
+		break;
+	}
+	case OBJECT_TYPE_TURTLE:
+	{
+		obj = new CTurtle(x, y);
 		break;
 	}
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(x, y); break;

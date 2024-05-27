@@ -13,6 +13,7 @@ blueblock.txt
 pipe.txt
 mushroom.txt
 score.txt
+turtle.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -61,6 +62,9 @@ score.txt
 5	440	148	80	48	1	102000	102000	102000
 
 5	560	156	96	32	1	105000	105000	105000
+
+#Turtle
+10	560	126
 # shadow white block
 6	580	104	8	72	104001
 #Brick

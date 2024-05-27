@@ -90,6 +90,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Turtle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -176,6 +179,9 @@
     <ClInclude Include="Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Turtle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -197,6 +203,7 @@
     <Text Include="pipe.txt" />
     <Text Include="mushroom.txt" />
     <Text Include="Score.txt" />
+    <Text Include="turtle.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

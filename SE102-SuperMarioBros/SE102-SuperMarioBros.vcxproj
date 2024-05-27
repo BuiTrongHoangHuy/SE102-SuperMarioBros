@@ -152,6 +152,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="Turtle.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +206,7 @@
     <Text Include="SceneStage1.txt" />
     <Text Include="pipe.txt" />
     <Text Include="Score.txt" />
+    <Text Include="turtle.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico" />
