@@ -27,6 +27,7 @@ public:
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	int IsBlocking() { return 0; }
+	int IsCollidable() { return 1; };
 	virtual void SetState(int state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };

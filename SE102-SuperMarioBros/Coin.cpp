@@ -21,12 +21,13 @@ void CCoin:: OnNoCollision(DWORD dt) {
 	y += vy * dt;
 }
 void CCoin:: OnCollisionWith(LPCOLLISIONEVENT e) {
-	//CGift* gift = dynamic_cast<CGift*>(e->obj);
-	//if (dynamic_cast<CGift*>(e->obj)) {
-	//	if (e->ny == -1) {
-	//		this->Delete();
-	//	}
-	//}
+	CGift* gift = dynamic_cast<CGift*>(e->obj);
+	if (dynamic_cast<CGift*>(e->obj)) {
+		if (e->ny == -1) {
+			this->Delete();
+			isDeleted = true;
+		}
+	}
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CCoin*>(e->obj)) return;
 
@@ -63,13 +64,9 @@ void CCoin::SetState(int state) {
 	}
 }
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+
+		vy += ay * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	if (state == COIN_STATE_FROMGIFT) {
-		vy += ay * dt;
-		if (y >= posY) {
-			this->Delete();
-			isDeleted = true;
-		}
-	}
+
 }

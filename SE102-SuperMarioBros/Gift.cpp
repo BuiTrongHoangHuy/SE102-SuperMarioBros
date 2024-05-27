@@ -45,14 +45,10 @@ void CGift::SetState(int state)
 
 void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += ay * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
-
-	if (state == GIFT_STATE_PREOPENED) {
-		vy += ay * dt;
-		y += vy * dt;
-	}
 	if (y >= minHeight && state == GIFT_STATE_PREOPENED) {
 		ay = 0;
 		vy = 0;
@@ -63,7 +59,6 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 
 CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
-	this->ay = 0.000f;
 	maxHeight = y - 15;
 	minHeight = y;
 	this->typeGift = typeGift;
@@ -73,16 +68,13 @@ CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
 void CGift::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CMario*>(e->obj) != nullptr) {
-		if (state == GIFT_STATE_CLOSED) {
-			SetState(GIFT_STATE_PREOPENED);
-		}
-	}
+	if (dynamic_cast<CGift*>(e->obj)) return;
+
 }
 void CGift::OnNoCollision(DWORD dt)
 {
-	/*x += vx * dt;
-	y += vy * dt;*/
+	x += vx * dt;
+	y += vy * dt;
 }
 
 void CGift::OpenGift() {
