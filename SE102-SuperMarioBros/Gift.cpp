@@ -1,6 +1,7 @@
 #include "Gift.h"
 #include "Mario.h"
-
+#include "Mushroom.h"
+#include "PlayScene.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;
@@ -26,7 +27,7 @@ void CGift::SetState(int state)
 	switch (state)
 	{
 	case GIFT_STATE_CLOSED:
-		ay = 0.0f; // No gravity when closed
+		ay = 0.0f;
 		vy = 0.0f;
 		break;
 	case GIFT_STATE_PREOPENED:
@@ -55,15 +56,22 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+	OpenGift();
 }
 
-CGift::CGift(float x, float y) :CGameObject(x, y) {
+CGift::CGift(float x, float y, int typeGift) :CGameObject(x, y) {
 	this->ay = 0.000f;
 	maxHeight = y - 15;
 	minHeight = y;
+	typeGift = typeGift;
 	SetState(GIFT_STATE_CLOSED);
 }
 
-void CGift::Open() {
-
+void CGift::OpenGift() {
+	if (typeGift == 1) {
+		LPGAMEOBJECT mushroom = new CMushroom(x, y);
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+		p->AddFowardNewObject(mushroom, this);
+	}
 }

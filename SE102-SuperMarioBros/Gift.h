@@ -20,12 +20,13 @@ protected:
 	float minHeight;
 	float maxHeight;
 	float ay;
+	int typeGift;
 public:
-	CGift(float x, float y);
+	CGift(float x, float y, int typeGift);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b); 
 	virtual int IsCollidable() { return 1; };
-	void Open();
+	void OpenGift();
 	virtual void SetState(int state);
 };

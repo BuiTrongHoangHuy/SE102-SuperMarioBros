@@ -120,7 +120,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-	case OBJECT_TYPE_GIFT: obj = new CGift(x, y); break;
+	case OBJECT_TYPE_GIFT:
+	{
+		int typeGift = (int)atoi(tokens[3].c_str());
+		obj = new CGift(x, y, typeGift); 
+		break;
+	}
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -335,4 +340,12 @@ void CPlayScene::PurgeDeletedObjects()
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+}
+
+void CPlayScene::AddFowardNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object) {
+	auto it = std::find(objects.begin(), objects.end(), Object);
+	if (it != objects.end())
+	{
+		objects.insert(it, newObject);
+		}
 }
