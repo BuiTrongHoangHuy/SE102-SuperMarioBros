@@ -3,6 +3,7 @@
 #include "Mushroom.h"
 #include "PlayScene.h"
 #include "Coin.h"
+#include "Score.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;
@@ -48,7 +49,7 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-
+	
 	if (y >= minHeight && state == GIFT_STATE_PREOPENED) {
 		ay = 0;
 		vy = 0;
@@ -85,6 +86,7 @@ void CGift::OpenGift() {
 		if (this != nullptr) {
 			p->AddFowardNewObject(mushroom,this );
 		}
+		
 	}
 	else {
 		LPGAMEOBJECT coin = new CCoin(x, y, 1);
@@ -93,6 +95,7 @@ void CGift::OpenGift() {
 		if (this != nullptr) {
 			p->AddFowardNewObject(coin, this);
 		}
+		
 	}
 }
 

@@ -18,6 +18,7 @@ class CCoin : public CGameObject {
 protected:
 	float ay;
 	float posY;
+	float posX;
 	int typeCoin;
 public:
 	CCoin(float x, float y,int typeCoin);

@@ -1,6 +1,9 @@
 #include "Coin.h"
 #include "Gift.h"
-
+#include "Mario.h"
+#include "Mushroom.h"
+#include "PlayScene.h"
+#include "Score.h"
 void CCoin::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -26,6 +29,12 @@ void CCoin:: OnCollisionWith(LPCOLLISIONEVENT e) {
 		if (e->ny == -1) {
 			this->Delete();
 			isDeleted = true;
+			LPGAMEOBJECT score = new CScore(posX, posY);
+			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+			if (gift != nullptr) {
+				p->AddFowardNewObject(score, gift);
+			}
 		}
 	}
 	if (!e->obj->IsBlocking()) return;
@@ -43,6 +52,7 @@ void CCoin:: OnCollisionWith(LPCOLLISIONEVENT e) {
 CCoin::CCoin(float x, float y,int typeCoin) :CGameObject(x, y)
 {
 	this->posY = y;
+	this->posX = x;
 	this->typeCoin = typeCoin;
 	if (this->typeCoin == COIN_TYPE_FROMGIFT) {
 		SetState(COIN_STATE_FROMGIFT);

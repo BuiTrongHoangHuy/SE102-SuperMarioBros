@@ -12,6 +12,7 @@ organeblock.txt
 blueblock.txt
 pipe.txt
 mushroom.txt
+score.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
