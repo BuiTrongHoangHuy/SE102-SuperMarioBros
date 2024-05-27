@@ -30,20 +30,9 @@ void CBackGroundObject::RenderBoundingBox()
 
 void CBackGroundObject::Render()
 {
-	//if (this->length <= 0) return;
-	float xx = x;
 	CSprites* s = CSprites::GetInstance();
 
-	s->Get(this->spriteId)->Draw(xx, y);
-	xx += this->Width;
-	//for (int i = 1; i < this->length - 1; i++)
-	//{
-	//	s->Get(this->spriteIdMiddle)->Draw(xx, y);
-	//	xx += this->cellWidth;
-	//}
-	//if (length > 1)
-	//	s->Get(this->spriteIdEnd)->Draw(xx, y);
-
+	s->Get(this->spriteId)->Draw(x, y);
 	//RenderBoundingBox();
 }
 
@@ -54,10 +43,4 @@ void CBackGroundObject::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - this->Height / 2;
 	r = l + this->Width;
 	b = t + this->Height;
-}
-int CBackGroundObject::IsDirectionColliable(float nx, float ny)
-{
-	/*if (nx == 0 && ny == -1) return 1;
-	else */
-		return 0;
 }

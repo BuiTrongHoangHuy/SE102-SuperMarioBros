@@ -22,7 +22,6 @@ public:
 		this->spriteId = sprite_id;
 	}
 
-	int IsDirectionColliable(float nx, float ny);
 
 	void Render();
 	void Update(DWORD dt) {}
