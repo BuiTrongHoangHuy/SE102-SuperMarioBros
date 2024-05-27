@@ -34,7 +34,7 @@ void CGift::SetState(int state)
 		vy = -0.25f;
 		break;
 	case GIFT_STATE_OPENED:
-		ay = 0; // Apply gravity when opened
+		ay = 0; 
 		break;
 	}
 	
@@ -64,3 +64,6 @@ CGift::CGift(float x, float y) :CGameObject(x, y) {
 	SetState(GIFT_STATE_CLOSED);
 }
 
+void CGift::Open() {
+
+}

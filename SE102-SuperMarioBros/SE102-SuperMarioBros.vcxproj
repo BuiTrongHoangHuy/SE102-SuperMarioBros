@@ -141,6 +141,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="Mushroom.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
@@ -192,6 +194,7 @@
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
     <Text Include="minigrass.txt" />
+    <Text Include="mushroom.txt" />
     <Text Include="organeblock.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
