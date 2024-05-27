@@ -101,8 +101,8 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGift(LPCOLLISIONEVENT e) {
 		CGift* gift = dynamic_cast<CGift*>(e->obj);
 	if (e->ny > 0) {
-		if (gift->GetState() != GIFT_STATE_OPENED) {
-			gift->SetState(GIFT_STATE_OPENED);
+		if (gift->GetState() == GIFT_STATE_CLOSED ) {
+			gift->SetState(GIFT_STATE_PREOPENED);
 		}
 	}
 }

@@ -13,19 +13,18 @@
 
 #define GIFT_STATE_CLOSED 100
 #define GIFT_STATE_OPENED 200
-
+#define GIFT_STATE_PREOPENED 300
 class CGift : public CGameObject {
 protected:
 	bool isOpened = false;
+	float minHeight;
+	float maxHeight;
 	float ay;
 public:
-	CGift(float x, float y) : CGameObject(x, y) {}
+	CGift(float x, float y);
 	void Render();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {}
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	virtual void OnNoCollision(DWORD dt);
-
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e); 
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void GetBoundingBox(float& l, float& t, float& r, float& b); 
 	virtual int IsCollidable() { return 1; };
 	void Open() {
 		if (isOpened == false) {
