@@ -4,6 +4,7 @@ CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = TURTLE_GRAVITY;
+	isOnPlatform = false;
 	die_start = -1;
 	SetState(TURTLE_STATE_WALKING);
 }
@@ -40,6 +41,7 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
 	}
 	else if (e->nx != 0)
 	{
@@ -59,16 +61,20 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	CGameObject::Update(dt, coObjects);
+	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 
 void CTurtle::Render()
 {
-	int aniId = ID_ANI_TURTLE_WALKING;
+	int aniId = -1;
 	if (state == TURTLE_STATE_DIE)
 	{
 		aniId = ID_ANI_TURTLE_DIE;
+	}
+	else {
+		aniId=GetAniId();
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -93,6 +99,13 @@ void CTurtle::SetState(int state)
 	}
 }
 int CTurtle:: GetAniId() {
-
+	int aniID = -1;
+	if (this->isOnPlatform) {
+		if (vx >= 0)
+			aniID = ID_ANI_TURTLE_WALKING_RIGHT;
+		else aniID = ID_ANI_TURTLE_WALKING_LEFT;
+	}
+	if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
+	return aniID;
 }
 

@@ -14,14 +14,18 @@
 #define TURTLE_STATE_WALKING 100
 #define TURTLE_STATE_DIE 200
 
-#define ID_ANI_TURTLE_WALKING 155000
-#define ID_ANI_TURTLE_DIE 155001
+#define ID_ANI_TURTLE_IDLE 155003
+
+#define ID_ANI_TURTLE_WALKING_LEFT 155000
+#define ID_ANI_TURTLE_WALKING_RIGHT 155001
+#define ID_ANI_TURTLE_DIE 155002
 
 class CTurtle : public CGameObject
 {
 protected:
 	float ax;
 	float ay;
+	BOOLEAN isOnPlatform;
 
 	ULONGLONG die_start;
 
@@ -30,7 +34,7 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 1; }
+	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
