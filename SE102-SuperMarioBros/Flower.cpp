@@ -8,3 +8,4 @@ CFlower::CFlower(float x, float y) : CGameObject(x, y)
     this->state = FLOWER_STATE_HIDDEN;
 }
 
+

@@ -196,6 +196,7 @@
     <Text Include="cloud.txt" />
     <Text Include="coin.txt" />
     <Text Include="floor.txt" />
+    <Text Include="flower.txt" />
     <Text Include="gift.txt" />
     <Text Include="goomba.txt" />
     <Text Include="grass.txt" />

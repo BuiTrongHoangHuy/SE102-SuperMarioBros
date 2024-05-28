@@ -58,7 +58,7 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	if ((state == TURTLE_STATE_DIE) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
-		isDeleted = true;
+		//isDeleted = true;
 		return;
 	}
 	if (vx > 0) {
