@@ -106,9 +106,9 @@ void CMario::OnCollisionWithGift(LPCOLLISIONEVENT e) {
 	if (e->ny > 0) {
 		if (gift->GetState() == GIFT_STATE_CLOSED ) {
 			gift->SetState(GIFT_STATE_PREOPENED);
-		}
-		if (gift->GetType() == 1) {
-			coin++;
+			if (gift->GetType() == 0) {
+				coin++;
+			}
 		}
 	}
 }
