@@ -4,6 +4,7 @@
 #include "PlayScene.h"
 #include "Coin.h"
 #include "Score.h"
+#include "VirtualObject.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;

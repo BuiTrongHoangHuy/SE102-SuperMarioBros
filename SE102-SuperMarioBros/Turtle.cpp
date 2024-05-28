@@ -1,11 +1,13 @@
-#include "TURTLE.h"
-
+#include "Turtle.h"
+#include "VirtualObject.h"
+#include "PlayScene.h"
 CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = TURTLE_GRAVITY;
 	isOnPlatform = false;
 	die_start = -1;
+	vobject = new CVirtualObject(x, y + TURTLE_BBOX_HEIGHT / 2 );
 	SetState(TURTLE_STATE_WALKING);
 }
 
@@ -23,7 +25,7 @@ void CTurtle::GetBoundingBox(float& left, float& top, float& right, float& botto
 		left = x - TURTLE_BBOX_WIDTH / 2;
 		top = y - TURTLE_BBOX_HEIGHT / 2;
 		right = left + TURTLE_BBOX_WIDTH;
-		bottom = top + TURTLE_BBOX_HEIGHT;
+		bottom = top + TURTLE_BBOX_HEIGHT -1;
 	}
 }
 
@@ -53,13 +55,27 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	
 	if ((state == TURTLE_STATE_DIE) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
 	}
+	if (vx > 0) {
+	this->vobject->SetPosition( x+8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+	}else
+		this->vobject->SetPosition(x-8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
 
+	//vector<LPGAMEOBJECT> coObjectsForGhost;
+	//for (size_t i = 0; i < coObjects->size(); i++)
+	//{
+	//	coObjectsForGhost.push_back(coObjects->at(i));
+	//}
+	//CCollision::GetInstance()->Process(vobject, dt, &coObjectsForGhost);
+	vobject->Update(dt, coObjects);
+	if (!vobject->GetIsOnPlatform()) {
+		vx = -vx;
+	}
 	CGameObject::Update(dt, coObjects);
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -78,7 +94,8 @@ void CTurtle::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	vobject->Render();
+	//RenderBoundingBox();
 }
 
 void CTurtle::SetState(int state)

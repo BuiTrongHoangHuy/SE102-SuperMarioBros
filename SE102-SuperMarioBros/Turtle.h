@@ -1,8 +1,8 @@
 #pragma once
 #include "GameObject.h"
-
+#include "VirtualObject.h"
 #define TURTLE_GRAVITY 0.002f
-#define TURTLE_WALKING_SPEED 0.05f
+#define TURTLE_WALKING_SPEED 0.01f
 
 
 #define TURTLE_BBOX_WIDTH 16
@@ -27,6 +27,7 @@ protected:
 	float ay;
 	BOOLEAN isOnPlatform;
 
+	CVirtualObject* vobject;
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

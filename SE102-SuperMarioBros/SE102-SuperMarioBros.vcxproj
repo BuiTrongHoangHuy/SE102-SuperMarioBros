@@ -154,6 +154,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="VirtualObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="VirtualObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="blueblock.txt" />
