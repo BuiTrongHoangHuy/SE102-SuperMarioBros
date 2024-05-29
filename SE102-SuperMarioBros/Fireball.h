@@ -10,7 +10,7 @@ class CFireball : public CGameObject
 {
     int direction;
 public:
-    CFireball(float x, float y, int directionX,int directionY);
+    CFireball(float x, float y, float directionX,float directionY);
 
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
     virtual void Render();

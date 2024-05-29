@@ -2,11 +2,11 @@
 #include "Mario.h"
 #include "PlayScene.h"
 
-CFireball::CFireball(float x, float y, int directionX, int directionY) : CGameObject(x, y)
+CFireball::CFireball(float x, float y, float directionX, float directionY) : CGameObject(x, y)
 {
     this->direction = directionX;
     vx = directionX * FIREBALL_SPEED;
-    vy = directionY * FIREBALL_SPEED;
+    vy = directionY * 0.03f;
 }
 
 void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

@@ -12,6 +12,7 @@
 #include "Gift.h"
 #include "Mushroom.h"
 #include "Turtle.h"
+#include "Fireball.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -63,6 +64,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithMushroom(e);
 	else if (dynamic_cast<CTurtle*>(e->obj))
 		OnCollisionWithTurtle(e);
+	else if (dynamic_cast<CFireball*>(e->obj))
+		OnCollisionWithFireball(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -97,6 +100,24 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+}
+void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e) {
+	CFireball* fireball = dynamic_cast<CFireball*>(e->obj);
+
+		if (untouchable == 0)
+		{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+		}
+		e->obj->Delete();
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)

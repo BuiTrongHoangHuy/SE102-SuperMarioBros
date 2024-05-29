@@ -46,16 +46,15 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             SetState(FLOWER_STATE_APPEARING);
         }
     } else if (state == FLOWER_STATE_VISIBLE) {
-        if ((marioX < x - 100) || (marioX > x + 100)){
+        if ((marioX < x - 130) || (marioX > x + 130)){
             SetState(FLOWER_STATE_DISAPPEARING);
             isHidden = false;
             DebugOut(L"[INFO] disappear!\n");
 
         }
-        else if ((marioX > x - 40) && (marioX < x + 40)) {
+        else if ((marioX > x - 30) && (marioX < x + 30)) {
             SetState(FLOWER_STATE_DISAPPEARING);
             isHidden = true;
-            // ban
         }
         else {
             if (state == FLOWER_STATE_VISIBLE && GetTickCount64() - lastShootTime > FLOWER_SHOOT_INTERVAL) 
@@ -66,7 +65,7 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
         }
     }
     else if (state == FLOWER_STATE_HIDDEN) {
-        if ((marioX < x - 40) || (marioX > x + 40)) {
+        if ((marioX < x - 30) || (marioX > x + 30)) {
             SetState(FLOWER_STATE_APPEARING);
         }
     }
@@ -145,21 +144,32 @@ int CFlower::GetAniID() {
     else if (marioX > x && marioY < y) {
         aniID = ID_ANI_FLOWER_APPEAR_RIGHT_TOP;
     }
+    if (state == FLOWER_STATE_VISIBLE) {
+        if (marioX <= x && marioY >= y) {
+            aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_BOT;
+        }
+        else if (marioX <= x && marioY < y) {
+            aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_TOP;
+        }
+        else if (marioX > x && marioY >= y) {
+            aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_BOT;
+        }
+        else if (marioX > x && marioY < y) {
+            aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_TOP;
+        }
+    }
     return aniID;
 }
 void CFlower::Shoot(float marioX, float marioY)
 {
     CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
 
-    // Calculate the direction towards Mario
-    int directionX = (marioX < this->x) ? -1 : 1;
-    int directionY = (marioY < this->y) ? -1 : 1;
+    float directionX = (marioX < this->x) ? -1 : 1;
+    float directionY = (marioY < this->y) ? -1 : 1;
     if (marioY<y + 10 && marioY>y - 10) {
-        directionY = 0;
+        directionY = 0.5;
     }
-    // Create the fireball
-   // CFireball* fireball = new CFireball(x, y, direction);
-    LPGAMEOBJECT fireball = new CFireball(x, y, directionX,directionY);
+    LPGAMEOBJECT fireball = new CFireball(x, y-5, directionX,directionY);
     LPSCENE s = CGame::GetInstance()->GetCurrentScene(); 
     LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s); 
     if (this != nullptr) {
