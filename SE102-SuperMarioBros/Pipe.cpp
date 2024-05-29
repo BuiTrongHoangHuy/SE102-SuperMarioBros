@@ -10,7 +10,7 @@ void CPipe::Render()
 
 void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - PIPE_BBOX_WIDTH / 2 + 1;
+	l = x - PIPE_BBOX_WIDTH / 2 + 1 ;
 	t = y - PIPE_BBOX_HEIGHT / 2;
 	r = l + PIPE_BBOX_WIDTH - 1 ;
 	b = t + PIPE_BBOX_HEIGHT;

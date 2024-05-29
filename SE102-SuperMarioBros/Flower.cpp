@@ -9,6 +9,7 @@ CFlower::CFlower(float x, float y) : CGameObject(x, y)
     this->y = y;
     this->startY = y;
     this->endY = y - FLOWER_BBOX_HEIGHT;
+    this->isHidden = false;
     SetState(FLOWER_STATE_APPEARING);
     lastShootTime = 0;
 }
@@ -29,17 +30,44 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
     float marioX, marioY;
     mario->GetPosition(marioX, marioY);
     if (state == FLOWER_STATE_APPEARING) {
-        if (y <= endY) {
+        if (y <= endY ) {
             y = endY;
-            SetState(FLOWER_STATE_DISAPPEARING); 
-
+            SetState(FLOWER_STATE_VISIBLE);
         }
+
     } else if (state == FLOWER_STATE_DISAPPEARING) {
-        if (y >= startY) {
+        if (y >= startY && isHidden) {
+            y = startY;
+            SetState(FLOWER_STATE_HIDDEN);
+        } else if (y >= startY) {
             y = startY;
             SetState(FLOWER_STATE_APPEARING);
         }
+    } else if (state == FLOWER_STATE_VISIBLE) {
+        if ((marioX < x - 100) || (marioX > x + 100)){
+            SetState(FLOWER_STATE_DISAPPEARING);
+            isHidden = false;
+            DebugOut(L"[INFO] disappear!\n");
+
+        }
+        else if ((marioX > x - 40) && (marioX < x + 40)) {
+            SetState(FLOWER_STATE_DISAPPEARING);
+            isHidden = true;
+            // ban
+        }
     }
+    else if (state == FLOWER_STATE_HIDDEN) {
+        if ((marioX < x - 40) || (marioX > x + 40)) {
+            SetState(FLOWER_STATE_APPEARING);
+        }
+    }
+    /*else if ((marioX > x - 50) || (marioX < x + 50)) {
+        SetState(FLOWER_STATE_DISAPPEARING);
+        if (y >= startY) {
+            y = startY;
+            SetState(FLOWER_STATE_HIDDEN);
+        }
+    }*/
     CGameObject::Update(dt);
     CCollision::GetInstance()->Process(this, dt, coObjects);
 
@@ -79,6 +107,12 @@ void CFlower::SetState(int state) {
     case FLOWER_STATE_DISAPPEARING:
         vy = FLOWER_APPEAR_SPEED;
         break;
+    case FLOWER_STATE_VISIBLE:
+        vy = 0;
+        break;
+    case FLOWER_STATE_HIDDEN:
+        vy = 0;
+        break;
     default:
         break;
     }
@@ -90,16 +124,16 @@ int CFlower::GetAniID() {
     float marioX, marioY;
     mario->GetPosition(marioX, marioY);
     int aniID = -1;
-    if (marioX <= x && marioY>=startY) {
+    if (marioX <= x && marioY>=y) {
         aniID = ID_ANI_FLOWER_APPEAR_LEFT_BOT;
     }
-    else if(marioX <=x && marioY < startY) {
+    else if(marioX <=x && marioY < y) {
         aniID = ID_ANI_FLOWER_APPEAR_LEFT_TOP;
     }
-    else if (marioX > x && marioY >= startY) {
+    else if (marioX > x && marioY >= y) {
         aniID = ID_ANI_FLOWER_APPEAR_RIGHT_BOT;
     }
-    else if (marioX > x && marioY < startY) {
+    else if (marioX > x && marioY < y) {
         aniID = ID_ANI_FLOWER_APPEAR_RIGHT_TOP;
     }
     return aniID;
