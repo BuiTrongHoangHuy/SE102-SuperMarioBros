@@ -1,7 +1,7 @@
 #include "Flower.h"
 #include "Animations.h"
 #include "debug.h"
-
+#include "PlayScene.h"
 CFlower::CFlower(float x, float y) : CGameObject(x, y)
 {
     ay = 0.002f;
@@ -24,11 +24,14 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
     //vy += ay * dt;
 
+    CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+    CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+    float marioX, marioY;
+    mario->GetPosition(marioX, marioY);
     if (state == FLOWER_STATE_APPEARING) {
         if (y <= endY) {
             y = endY;
             SetState(FLOWER_STATE_DISAPPEARING); 
-            DebugOut(L">>> hehe >>> \n" );
 
         }
     } else if (state == FLOWER_STATE_DISAPPEARING) {
@@ -45,11 +48,12 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CFlower::Render()
 {
     if (state != FLOWER_STATE_HIDDEN) {
-         CAnimations::GetInstance()->Get(ID_ANI_FLOWER_APPEAR)->Render(x, y);
+        int aniID = GetAniID();
+        CAnimations::GetInstance()->Get(aniID)->Render(x, y);
     }
 }
 void CFlower::OnNoCollision(DWORD dt) {
-    x += vx * dt;
+  //  x += vx * dt;
     y += vy * dt;
 }
 void CFlower::OnCollisionWith(LPCOLLISIONEVENT e) {
@@ -79,4 +83,24 @@ void CFlower::SetState(int state) {
         break;
     }
 
+}
+int CFlower::GetAniID() {
+    CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+    CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+    float marioX, marioY;
+    mario->GetPosition(marioX, marioY);
+    int aniID = -1;
+    if (marioX <= x && marioY>=startY) {
+        aniID = ID_ANI_FLOWER_APPEAR_LEFT_BOT;
+    }
+    else if(marioX <=x && marioY < startY) {
+        aniID = ID_ANI_FLOWER_APPEAR_LEFT_TOP;
+    }
+    else if (marioX > x && marioY >= startY) {
+        aniID = ID_ANI_FLOWER_APPEAR_RIGHT_BOT;
+    }
+    else if (marioX > x && marioY < startY) {
+        aniID = ID_ANI_FLOWER_APPEAR_RIGHT_TOP;
+    }
+    return aniID;
 }

@@ -13,6 +13,10 @@
 
 #define ID_ANI_FLOWER 165000
 #define ID_ANI_FLOWER_APPEAR 165001
+#define ID_ANI_FLOWER_APPEAR_LEFT_BOT 165001
+#define ID_ANI_FLOWER_APPEAR_LEFT_TOP 165002
+#define ID_ANI_FLOWER_APPEAR_RIGHT_BOT 165003
+#define ID_ANI_FLOWER_APPEAR_RIGHT_TOP 165004
 
 class CFlower : public CGameObject
 {   
@@ -30,4 +34,5 @@ public:
     virtual void SetState(int state);
     virtual int IsBlocking() { return 0; }
     void Shoot(float marioX, float marioY) {};
+    int GetAniID();
 };
