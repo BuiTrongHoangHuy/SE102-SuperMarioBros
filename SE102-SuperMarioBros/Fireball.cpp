@@ -20,6 +20,7 @@ void CFireball::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CFireball::Render()
 {
     CAnimations::GetInstance()->Get(ID_ANI_FIREBALL)->Render(x, y);
+    RenderBoundingBox();
 }
 
 void CFireball::GetBoundingBox(float& left, float& top, float& right, float& bottom)

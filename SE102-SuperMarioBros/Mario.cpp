@@ -13,6 +13,7 @@
 #include "Mushroom.h"
 #include "Turtle.h"
 #include "Fireball.h"
+#include "Pipe.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -103,21 +104,20 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e) {
 	CFireball* fireball = dynamic_cast<CFireball*>(e->obj);
-
-		if (untouchable == 0)
+	if (untouchable == 0)
+	{
+		if (level > MARIO_LEVEL_SMALL)
 		{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
 		}
-		e->obj->Delete();
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+	e->obj->Delete();
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
@@ -162,6 +162,7 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	}
 	else // hit by Turtle
 	{
+		
 		if (untouchable == 0)
 		{
 			if (turtle->GetState() != TURTLE_STATE_DIE)
@@ -176,6 +177,23 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+			}
+		}
+		if (e->obj->GetState() == TURTLE_STATE_DIE) {
+			if (e->nx > 0) {
+				if (state == MARIO_STATE_RUNNING_LEFT) {
+
+				}
+				e->obj->SetState(TURTLE_STATE_SPIN);
+				e->obj->SetSpeed(-0.1F, 0);
+
+			}
+			if (e->nx < 0) {
+				if (state == MARIO_STATE_RUNNING_RIGHT) {
+
+				}
+				e->obj->SetState(TURTLE_STATE_SPIN);
+				e->obj->SetSpeed(0.1f, 0);
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "PlayScene.h"
 #include "Fireball.h"
+#include "Pipe.h"
 CFlower::CFlower(float x, float y) : CGameObject(x, y)
 {
     ay = 0.002f;
@@ -20,7 +21,7 @@ void CFlower::GetBoundingBox(float& left, float& top, float& right, float& botto
     left = x - FLOWER_BBOX_WIDTH / 2;
     top = y - FLOWER_BBOX_HEIGHT / 2;
     right = left + FLOWER_BBOX_WIDTH;
-    bottom = top + FLOWER_BBOX_HEIGHT;
+    bottom = top + FLOWER_BBOX_HEIGHT +10;
 }
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -95,6 +96,8 @@ void CFlower::OnNoCollision(DWORD dt) {
 void CFlower::OnCollisionWith(LPCOLLISIONEVENT e) {
     if (!e->obj->IsBlocking()) return;
     if (dynamic_cast<CFlower*>(e->obj)) return;
+    if (dynamic_cast<CFireball*>(e->obj)) return;
+    if (dynamic_cast<CPipe*>(e->obj)) return;
 
     if (e->ny != 0)
     {

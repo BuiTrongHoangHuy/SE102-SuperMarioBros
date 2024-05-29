@@ -13,12 +13,12 @@ CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 
 void CTurtle::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == TURTLE_STATE_DIE)
+	if (state == TURTLE_STATE_DIE||state==TURTLE_STATE_SPIN)
 	{
 		left = x - TURTLE_BBOX_WIDTH / 2;
 		top = y - TURTLE_BBOX_HEIGHT_DIE / 2;
 		right = left + TURTLE_BBOX_WIDTH;
-		bottom = top + TURTLE_BBOX_HEIGHT_DIE;
+		bottom = top + TURTLE_BBOX_HEIGHT_DIE -1;
 	}
 	else
 	{
@@ -59,22 +59,28 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if ((state == TURTLE_STATE_DIE) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
 		//isDeleted = true;
-		return;
+		//return;
 	}
-	if (vx > 0) {
-	this->vobject->SetPosition( x+8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
-	}else
-		this->vobject->SetPosition(x-8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+	if (state == TURTLE_STATE_DIE) {
+		if (vx > 0) {
+			this->vobject->SetPosition(x + 8, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
+		}
+		else
+			this->vobject->SetPosition(x - 8, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
+	}
+	else {
 
-	//vector<LPGAMEOBJECT> coObjectsForGhost;
-	//for (size_t i = 0; i < coObjects->size(); i++)
-	//{
-	//	coObjectsForGhost.push_back(coObjects->at(i));
-	//}
-	//CCollision::GetInstance()->Process(vobject, dt, &coObjectsForGhost);
+		if (vx > 0) {
+			this->vobject->SetPosition( x+8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+		} else
+			this->vobject->SetPosition(x-8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+	}
+
 	vobject->Update(dt, coObjects);
-	if (!vobject->GetIsOnPlatform()) {
-		vx = -vx;
+	if (state == TURTLE_STATE_WALKING) {
+		if (!vobject->GetIsOnPlatform()) {
+			vx = -vx;
+		}
 	}
 	CGameObject::Update(dt, coObjects);
 	isOnPlatform = false;
@@ -105,13 +111,16 @@ void CTurtle::SetState(int state)
 	{
 	case TURTLE_STATE_DIE:
 		die_start = GetTickCount64();
-		y += (TURTLE_BBOX_HEIGHT - TURTLE_BBOX_HEIGHT_DIE) / 2;
+		y -= (TURTLE_BBOX_HEIGHT - TURTLE_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		ay = 0.002f;
 		break;
 	case TURTLE_STATE_WALKING:
 		vx = -TURTLE_WALKING_SPEED;
+		break;
+	case TURTLE_STATE_SPIN:
+		ay = 0.002f;
 		break;
 	}
 }
@@ -121,6 +130,9 @@ int CTurtle:: GetAniId() {
 		if (vx >= 0)
 			aniID = ID_ANI_TURTLE_WALKING_RIGHT;
 		else aniID = ID_ANI_TURTLE_WALKING_LEFT;
+	}
+	if (state == TURTLE_STATE_SPIN) {
+		aniID = ID_ANI_TURTLE_SPIN;
 	}
 	if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
 	return aniID;
