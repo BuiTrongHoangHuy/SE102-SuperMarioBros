@@ -16,6 +16,7 @@ score.txt
 turtle.txt
 goomba.txt
 flower.txt
+fireball.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -53,8 +54,7 @@ flower.txt
 
 #Single Cloud
 6	344	24	32	24	130000
-#Pipe
-8	368	148
+
 
 #Gift
 7	424	84	0
@@ -98,5 +98,7 @@ flower.txt
 6	1048	148	16	16	80000
 6	1064	148	16	16	80000
 
+#Pipe
+8	368	148
 # MARIO
 0	40	120

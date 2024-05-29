@@ -10,6 +10,7 @@
 #define FLOWER_APPEAR_SPEED 0.02f
 #define FLOWER_BBOX_WIDTH 16
 #define FLOWER_BBOX_HEIGHT 32
+#define FLOWER_SHOOT_INTERVAL 2000 // 2 seconds
 
 #define ID_ANI_FLOWER 165000
 #define ID_ANI_FLOWER_APPEAR 165001
@@ -39,6 +40,6 @@ public:
     void OnCollisionWith(LPCOLLISIONEVENT e);
     virtual void SetState(int state);
     virtual int IsBlocking() { return 0; }
-    void Shoot(float marioX, float marioY) {};
+    void Shoot(float marioX, float marioY) ;
     int GetAniID();
 };

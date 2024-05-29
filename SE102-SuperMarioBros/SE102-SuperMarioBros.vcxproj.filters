@@ -223,6 +223,7 @@
     <Text Include="Score.txt" />
     <Text Include="turtle.txt" />
     <Text Include="flower.txt" />
+    <Text Include="fireball.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
