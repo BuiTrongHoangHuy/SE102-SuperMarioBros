@@ -15,6 +15,7 @@ mushroom.txt
 score.txt
 turtle.txt
 goomba.txt
+flower.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

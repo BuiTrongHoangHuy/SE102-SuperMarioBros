@@ -1,5 +1,6 @@
 #include "Pipe.h"
-
+#include "Flower.h"
+#include "PlayScene.h"
 void CPipe::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -18,4 +19,14 @@ void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CPipe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	if (check) {
+		LPGAMEOBJECT flower = new CFlower(x, y-8);
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+		if (this != nullptr) {
+			p->AddFowardNewObject(flower, this);
+		}
+		check = false;
+	}
 }
