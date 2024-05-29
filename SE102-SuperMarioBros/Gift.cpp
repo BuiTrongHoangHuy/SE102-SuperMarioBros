@@ -5,6 +5,7 @@
 #include "Coin.h"
 #include "Score.h"
 #include "VirtualObject.h"
+#include "Turtle.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;
@@ -89,7 +90,7 @@ void CGift::OpenGift() {
 		}
 		
 	}
-	else {
+	else if(this->typeGift==0) {
 		LPGAMEOBJECT coin = new CCoin(x, y, 1);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);

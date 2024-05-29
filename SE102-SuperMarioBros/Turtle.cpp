@@ -1,6 +1,7 @@
 #include "Turtle.h"
 #include "VirtualObject.h"
 #include "PlayScene.h"
+#include "Gift.h"
 CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -13,7 +14,7 @@ CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 
 void CTurtle::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == TURTLE_STATE_DIE||state==TURTLE_STATE_SPIN)
+	if (state == TURTLE_STATE_DIE||state==TURTLE_STATE_SPIN||state == TURTLE_STATE_HEAL)
 	{
 		left = x - TURTLE_BBOX_WIDTH / 2;
 		top = y - TURTLE_BBOX_HEIGHT_DIE / 2;
@@ -39,7 +40,9 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CTurtle*>(e->obj)) return;
+	if (dynamic_cast<CGift*>(e->obj)) {
 
+	}
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -58,8 +61,14 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	if ((state == TURTLE_STATE_DIE) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
+		check = GetTickCount64();
+		SetState(TURTLE_STATE_HEAL);
 		//isDeleted = true;
 		//return;
+	}
+	if (state== TURTLE_STATE_HEAL && GetTickCount64() - check > 3000) {
+		die_start = -1;
+		SetState(TURTLE_STATE_WALKING);
 	}
 	if (state == TURTLE_STATE_DIE) {
 		if (vx > 0) {
@@ -117,7 +126,9 @@ void CTurtle::SetState(int state)
 		ay = 0.002f;
 		break;
 	case TURTLE_STATE_WALKING:
+		y -= (TURTLE_BBOX_HEIGHT - TURTLE_BBOX_HEIGHT_DIE) / 2;
 		vx = -TURTLE_WALKING_SPEED;
+		ay = 0.002f;
 		break;
 	case TURTLE_STATE_SPIN:
 		ay = 0.002f;
@@ -133,6 +144,9 @@ int CTurtle:: GetAniId() {
 	}
 	if (state == TURTLE_STATE_SPIN) {
 		aniID = ID_ANI_TURTLE_SPIN;
+	}
+	if (state == TURTLE_STATE_HEAL) {
+		aniID = ID_ANI_TURTLE_HEAL;
 	}
 	if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
 	return aniID;

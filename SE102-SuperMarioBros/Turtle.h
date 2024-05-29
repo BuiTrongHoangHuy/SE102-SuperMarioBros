@@ -9,11 +9,12 @@
 #define TURTLE_BBOX_HEIGHT 26
 #define TURTLE_BBOX_HEIGHT_DIE 16
 
-#define TURTLE_DIE_TIMEOUT 500
+#define TURTLE_DIE_TIMEOUT 5000
 
 #define TURTLE_STATE_WALKING 100
 #define TURTLE_STATE_DIE 200
 #define TURTLE_STATE_SPIN 300
+#define TURTLE_STATE_HEAL 400
 
 
 #define ID_ANI_TURTLE_WALKING_LEFT 155000
@@ -21,6 +22,7 @@
 #define ID_ANI_TURTLE_DIE 155002
 #define ID_ANI_TURTLE_IDLE 155003
 #define ID_ANI_TURTLE_SPIN 155004
+#define ID_ANI_TURTLE_HEAL 155005
 
 class CTurtle : public CGameObject
 {
@@ -31,6 +33,7 @@ protected:
 
 	CVirtualObject* vobject;
 	ULONGLONG die_start;
+	ULONGLONG check;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
