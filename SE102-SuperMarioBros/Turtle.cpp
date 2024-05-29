@@ -95,7 +95,7 @@ void CTurtle::Render()
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	vobject->Render();
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CTurtle::SetState(int state)

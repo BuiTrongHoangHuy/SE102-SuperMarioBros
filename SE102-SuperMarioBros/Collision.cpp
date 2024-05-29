@@ -173,7 +173,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 		if (e->WasCollided()==1)
 			coEvents.push_back(e);
 		else
-			delete e;
+				delete e;
 	}
 
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
@@ -235,7 +235,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	{
 		Scan(objSrc, dt, coObjects, coEvents);
 	}
-
+	
 	// No collision detected
 	if (coEvents.size() == 0)
 	{

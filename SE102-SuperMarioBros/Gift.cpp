@@ -50,7 +50,7 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	
+
 	if (y >= minHeight && state == GIFT_STATE_PREOPENED) {
 		ay = 0;
 		vy = 0;

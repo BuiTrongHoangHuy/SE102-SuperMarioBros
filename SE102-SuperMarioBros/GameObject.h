@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <d3dx10.h>
 #include <vector>
-
+#include <unordered_set>
 #include "Animation.h"
 #include "Animations.h"
 #include "Sprites.h"
@@ -31,6 +31,8 @@ protected:
 	bool isDeleted; 
 
 public: 
+	unordered_set<LPGAMEOBJECT> previousObjectTrigger;
+
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
@@ -67,6 +69,7 @@ public:
 
 	virtual int IsDirectionColliable(float nx, float ny) { return 1; }
 
+	
 	~CGameObject();
 
 	static bool IsDeleted(const LPGAMEOBJECT &o) { return o->isDeleted; }

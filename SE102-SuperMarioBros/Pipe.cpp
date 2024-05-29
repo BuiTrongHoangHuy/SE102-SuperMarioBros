@@ -14,3 +14,8 @@ void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + PIPE_BBOX_WIDTH - 1 ;
 	b = t + PIPE_BBOX_HEIGHT;
 }
+
+void CPipe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}

@@ -1,10 +1,12 @@
 #include "VirtualObject.h"
+#include "Platform.h"
+#include "debug.h"
 
 CVirtualObject:: CVirtualObject(float x, float y) : CGameObject(x, y)
 {
     vx = 0;
     vy = 0;
-    //isOnPlatform = false;
+    isOnPlatform = false;
 }
 
 void CVirtualObject::Render() {
