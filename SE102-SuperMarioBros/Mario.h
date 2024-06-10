@@ -32,6 +32,7 @@
 
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
+#define MARIO_STATE_SIT_KICK		700
 
 
 #pragma region ANIMATION_ID
@@ -57,6 +58,8 @@
 #define ID_ANI_MARIO_BRACE_RIGHT 1000
 #define ID_ANI_MARIO_BRACE_LEFT 1001
 
+#define ID_ANI_MARIO_KICK_RIGHT 2000
+#define ID_ANI_MARIO_KICK_LEFT 2001
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
@@ -112,6 +115,8 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
+	BOOLEAN isKick = false;
+	ULONGLONG time_kick;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -152,7 +157,7 @@ public:
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	void AddCoin() { coin++; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 

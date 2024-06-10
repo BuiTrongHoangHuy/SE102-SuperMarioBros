@@ -15,13 +15,13 @@ void CGift::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(aniID)->Render(x, y);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CGift::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - GIFT_BBOX_WIDTH / 2;
-	t = y - GIFT_BBOX_HEIGHT / 2;
+	l = x - GIFT_BBOX_WIDTH / 2 ;
+	t = y - GIFT_BBOX_HEIGHT / 2 ;
 	r = l + GIFT_BBOX_WIDTH	;
 	b = t + GIFT_BBOX_HEIGHT ;
 }
@@ -52,7 +52,7 @@ void CGift::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
-	if (y >= minHeight && state == GIFT_STATE_PREOPENED) {
+	if (y >= minHeight -2 && state == GIFT_STATE_PREOPENED) {
 		ay = 0;
 		vy = 0;
 		y = minHeight;

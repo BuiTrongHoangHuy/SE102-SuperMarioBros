@@ -41,7 +41,17 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CTurtle*>(e->obj)) return;
 	if (dynamic_cast<CGift*>(e->obj)) {
-
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+		CGift* gift = dynamic_cast<CGift*>(e->obj);
+		if (e->nx != 0) {
+			if (gift->GetState() == GIFT_STATE_CLOSED) {
+				gift->SetState(GIFT_STATE_PREOPENED);
+				if (gift->GetType() == 0) {
+					mario->AddCoin();
+				}
+			}
+		}
 	}
 	if (e->ny != 0)
 	{

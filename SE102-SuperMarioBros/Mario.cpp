@@ -185,6 +185,8 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 
 				}
 				e->obj->SetState(TURTLE_STATE_SPIN);
+				isKick = true;
+				time_kick = GetTickCount64();
 				e->obj->SetSpeed(-0.1F, 0);
 
 			}
@@ -192,6 +194,8 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 				if (state == MARIO_STATE_RUNNING_RIGHT) {
 
 				}
+				isKick = true;
+				time_kick = GetTickCount64();
 				e->obj->SetState(TURTLE_STATE_SPIN);
 				e->obj->SetSpeed(0.1f, 0);
 			}
@@ -298,6 +302,8 @@ int CMario::GetAniIdBig()
 				aniId = ID_ANI_MARIO_SIT_LEFT;
 		}
 		else
+		{
+
 			if (vx == 0)
 			{
 				if (nx > 0) aniId = ID_ANI_MARIO_IDLE_RIGHT;
@@ -311,6 +317,13 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_RUNNING_RIGHT;
 				else if (ax == MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_WALKING_RIGHT;
+				if (isKick) {
+					aniId = ID_ANI_MARIO_KICK_RIGHT;
+					if (GetTickCount64() - time_kick > 200) {
+						isKick = false;
+						time_kick = 0;
+					}
+				}
 			}
 			else // vx < 0
 			{
@@ -320,7 +333,16 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_RUNNING_LEFT;
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_WALKING_LEFT;
+				if (isKick) {
+					aniId = ID_ANI_MARIO_KICK_LEFT;
+					if (GetTickCount64() - time_kick > 200) {
+						isKick = false;
+						time_kick = 0;
+					}
+				}
 			}
+			
+		}
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
 
