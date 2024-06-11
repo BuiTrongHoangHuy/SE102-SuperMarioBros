@@ -120,7 +120,7 @@ void CTurtle::Render()
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	vobject->Render();
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CTurtle::SetState(int state)
@@ -142,6 +142,11 @@ void CTurtle::SetState(int state)
 		break;
 	case TURTLE_STATE_SPIN:
 		ay = 0.002f;
+		break;
+	case TURTLE_STATE_SHELL:
+		ay = 0;
+		vx = 0;
+		vy = 0;
 		break;
 	}
 }

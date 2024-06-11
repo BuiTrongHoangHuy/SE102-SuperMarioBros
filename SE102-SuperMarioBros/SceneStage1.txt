@@ -69,8 +69,7 @@ fireball.txt
 
 # shadow white block
 6	580	104	8	72	104001
-#Turtle
-10	560	126
+
 #Brick
 1	634	164
 #Platform high
@@ -100,5 +99,8 @@ fireball.txt
 
 #Pipe
 8	368	148
+
+#Turtle
+10	560	126
 # MARIO
 0	40	120

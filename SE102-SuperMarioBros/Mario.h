@@ -3,7 +3,7 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "Turtle.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
@@ -60,6 +60,11 @@
 
 #define ID_ANI_MARIO_KICK_RIGHT 2000
 #define ID_ANI_MARIO_KICK_LEFT 2001
+#define ID_ANI_MARIO_HOLD_SHELL_RIGHT 2100
+#define ID_ANI_MARIO_HOLD_SHELL_LEFT 2101
+#define ID_ANI_MARIO_HOLD_SHELL_RUNNING_RIGHT 2200
+#define ID_ANI_MARIO_HOLD_SHELL_RUNNING_LEFT 2201
+
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
@@ -81,6 +86,8 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT 2100
+#define ID_ANI_MARIO_SMALL_KICK_LEFT 2101
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -116,6 +123,9 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	BOOLEAN isKick = false;
+	BOOLEAN isHold = false;
+	BOOLEAN isReleaseHold = false;
+	CTurtle* holdTurtle = nullptr;
 	ULONGLONG time_kick;
 	int coin; 
 
@@ -160,6 +170,12 @@ public:
 	void AddCoin() { coin++; }
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-
+	void SetIsHold(bool state) { this->isHold = state; }
+	void SetIsKick(bool state) { this->isKick = state; }
+	void SetIsReleaseHold(bool state) { this->isReleaseHold = state; }
+	bool GetIsReleaseHold() { return this->isReleaseHold ; }
+	bool GetIsKick() { return this->isKick ; }
+	bool GetIsHold() { return this->isHold; }
+	CTurtle* GetHoldTurtle() { return holdTurtle; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
