@@ -163,6 +163,9 @@ int CTurtle:: GetAniId() {
 	if (state == TURTLE_STATE_HEAL) {
 		aniID = ID_ANI_TURTLE_HEAL;
 	}
+	if (state == TURTLE_STATE_SHELL) {
+		aniID = ID_ANI_TURTLE_DIE;
+	}
 	if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
 	return aniID;
 }
