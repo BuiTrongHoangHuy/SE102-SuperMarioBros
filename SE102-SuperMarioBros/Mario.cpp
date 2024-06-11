@@ -214,7 +214,7 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 		
 		if (untouchable == 0)
 		{
-			if (turtle->GetState() != TURTLE_STATE_DIE)
+			if (turtle->GetState() != TURTLE_STATE_DIE && turtle->GetState()!= TURTLE_STATE_SHELL)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -402,6 +402,9 @@ int CMario::GetAniIdBig()
 							time_kick = 0;
 						}
 					}
+					if (isHold) {
+						aniId = ID_ANI_MARIO_HOLD_SHELL_RIGHT;
+					}
 				}
 
 				else {
@@ -412,6 +415,9 @@ int CMario::GetAniIdBig()
 							isKick = false;
 							time_kick = 0;
 						}
+					}
+					if (isHold) {
+						aniId = ID_ANI_MARIO_HOLD_SHELL_LEFT;
 					}
 				}
 			}

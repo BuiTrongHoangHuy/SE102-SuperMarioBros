@@ -82,6 +82,7 @@ void CGift::OnNoCollision(DWORD dt)
 
 void CGift::OpenGift() {
 	if (this->typeGift == 1) {
+		
 		LPGAMEOBJECT mushroom = new CMushroom(x, y);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
