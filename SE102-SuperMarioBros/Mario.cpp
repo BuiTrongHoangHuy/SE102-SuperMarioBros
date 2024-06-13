@@ -14,6 +14,7 @@
 #include "Turtle.h"
 #include "Fireball.h"
 #include "Pipe.h"
+#include "Leaf.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -58,6 +59,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			//else {
 			//	this->holdTurtle->SetPosition(mx + 12, my+3 );
 			//}
+		}
+		else if (level == MARIO_LEVEL_RACCON) {
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					this->holdTurtle->SetPosition(mx + 14, my + 3);
+				}
+
+				else {
+					this->holdTurtle->SetPosition(mx - 14, my + 3);
+				}
+			}
+			else if (vx > 0) {
+				this->holdTurtle->SetPosition(mx + 14, my + 3);
+
+			}
+			else {
+				this->holdTurtle->SetPosition(mx - 14, my + 3);
+
+			}
 		}
 		else if(level == MARIO_LEVEL_SMALL) {
 			if (vx == 0)
@@ -139,6 +160,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithTurtle(e);
 	else if (dynamic_cast<CFireball*>(e->obj))
 		OnCollisionWithFireball(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -219,6 +242,19 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	}
 	e->obj->Delete();
 	
+}
+
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
+{
+	CLeaf* leaf = dynamic_cast<CLeaf*>(e->obj);
+	if (leaf->GetState() != LEAF_STATE_DIE) {
+		leaf->SetState(LEAF_STATE_DIE);
+	}
+	if (level == MARIO_LEVEL_BIG) {
+		SetLevel(MARIO_LEVEL_RACCON);
+	}
+	e->obj->Delete();
+
 }
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	CTurtle* turtle = dynamic_cast<CTurtle*>(e->obj);
@@ -539,6 +575,130 @@ int CMario::GetAniIdBig()
 	return aniId;
 }
 
+int CMario::GetAniIdRaccon() {
+	int aniId = -1;
+	if (!isOnPlatform)
+	{
+		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		{
+			if (nx >= 0) {
+				aniId = ID_ANI_MARIO_RACCON_JUMP_RUN_RIGHT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_RIGHT;
+				}
+			}
+			else {
+				aniId = ID_ANI_MARIO_RACCON_JUMP_RUN_LEFT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_LEFT;
+				}
+			}
+		}
+		else
+		{
+			if (nx >= 0) {
+				aniId = ID_ANI_MARIO_RACCON_JUMP_WALK_RIGHT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RIGHT;
+				}
+			}
+			else {
+				aniId = ID_ANI_MARIO_RACCON_JUMP_WALK_LEFT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_LEFT;
+				}
+			}
+		}
+	}
+	else
+		if (isSitting)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_RACCON_SIT_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCON_SIT_LEFT;
+		}
+		else
+		{
+
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					aniId = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+					if (isKick) {
+						aniId = ID_ANI_MARIO_RACCON_KICK_RIGHT;
+						if (GetTickCount64() - time_kick > 200) {
+							isKick = false;
+							time_kick = 0;
+						}
+					}
+					if (isHold) {
+						aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RIGHT;
+					}
+				}
+
+				else {
+					aniId = ID_ANI_MARIO_RACCON_IDLE_LEFT;
+					if (isKick) {
+						aniId = ID_ANI_MARIO_RACCON_KICK_LEFT;
+						if (GetTickCount64() - time_kick > 200) {
+							isKick = false;
+							time_kick = 0;
+						}
+					}
+					if (isHold) {
+						aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_LEFT;
+					}
+				}
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
+				else if (ax == MARIO_ACCEL_RUN_X) {
+					aniId = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
+				}
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_RACCON_WALKING_RIGHT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_RIGHT;
+				}
+				if (isKick) {
+					aniId = ID_ANI_MARIO_RACCON_KICK_RIGHT;
+					if (GetTickCount64() - time_kick > 200) {
+						isKick = false;
+						time_kick = 0;
+					}
+				}
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_RACCON_BRACE_LEFT;
+				else if (ax == -MARIO_ACCEL_RUN_X) {
+					aniId = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
+
+				}
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_RACCON_WALKING_LEFT;
+				if (isHold) {
+					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_LEFT;
+				}
+				if (isKick) {
+					aniId = ID_ANI_MARIO_RACCON_KICK_LEFT;
+					if (GetTickCount64() - time_kick > 200) {
+						isKick = false;
+						time_kick = 0;
+					}
+				}
+			}
+
+		}
+
+	if (aniId == -1) aniId = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
+
+	return aniId;
+}
 void CMario::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -550,6 +710,9 @@ void CMario::Render()
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
+	else if (level == MARIO_LEVEL_RACCON) {
+		aniId = GetAniIdRaccon();
+	}
 
 	animations->Get(aniId)->Render(x, y);
 
@@ -659,6 +822,22 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
 	}
+	else if (level == MARIO_LEVEL_RACCON) {
+		if (isSitting)
+		{
+			left = x +5 - MARIO_RACCON_SITTING_BBOX_WIDTH / 2;
+			top = y - MARIO_RACCON_SITTING_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACCON_SITTING_BBOX_WIDTH ;
+			bottom = top + MARIO_RACCON_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x - MARIO_RACCON_BBOX_WIDTH / 2;
+			top = y - MARIO_RACCON_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACCON_BBOX_WIDTH ;
+			bottom = top + MARIO_RACCON_BBOX_HEIGHT;
+		}
+	}
 	else
 	{
 		left = x - MARIO_SMALL_BBOX_WIDTH/2;
@@ -674,6 +853,9 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	else if (this->level == MARIO_LEVEL_BIG) {
+		y -= (MARIO_RACCON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT) / 2;
 	}
 	level = l;
 }
