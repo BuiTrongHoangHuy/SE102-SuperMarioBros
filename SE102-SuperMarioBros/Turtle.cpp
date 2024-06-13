@@ -144,6 +144,7 @@ void CTurtle::SetState(int state)
 		ay = 0.002f;
 		break;
 	case TURTLE_STATE_SHELL:
+		die_start = GetTickCount64();
 		ay = 0;
 		vx = 0;
 		vy = 0;

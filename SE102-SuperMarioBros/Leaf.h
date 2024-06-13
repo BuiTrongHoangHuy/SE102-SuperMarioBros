@@ -1,22 +1,23 @@
 #pragma once
 #include "GameObject.h"
 
-#define MUSHROOM_GRAVITY 0.002f
-#define MUSHROOM_WALKING_SPEED 0.05f
-		
-#define MUSHROOM_BBOX_WIDTH 16
-#define MUSHROOM_BBOX_HEIGHT 16
-		
-#define MUSHROOM_DIE_TIMEOUT 500
-		
-#define MUSHROOM_STATE_APPEAR 100
-#define MUSHROOM_STATE_WALKING 200
-#define MUSHROOM_STATE_EATEN 300
+#define LEAF_GRAVITY 0.002f
+#define LEAF_WALKING_SPEED 0.05f
 
-#define ID_ANI_MUSHROOM 145000
+#define LEAF_BBOX_WIDTH 16
+#define LEAF_BBOX_HEIGHT 16
+
+#define LEAF_DIE_TIMEOUT 500
+
+#define LEAF_STATE_UP 100
+#define LEAF_STATE_DOWN 200
+#define LEAF_STATE_DIE 300
+
+#define ID_ANI_LEAF 185000
+#define ID_ANI_LEAF 185001
 
 
-class CMushroom : public CGameObject
+class CLeaf : public CGameObject
 {
 protected:
 	float ax;
@@ -35,6 +36,6 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CMushroom(float x, float y);
+	CLeaf(float x, float y);
 	virtual void SetState(int state);
 };

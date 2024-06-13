@@ -17,6 +17,7 @@ turtle.txt
 goomba.txt
 flower.txt
 fireball.txt
+leaf.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

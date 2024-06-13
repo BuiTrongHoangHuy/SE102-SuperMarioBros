@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -141,6 +141,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gift.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Mushroom.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Gift.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="Pipe.h" />
@@ -203,6 +205,7 @@
     <Text Include="gift.txt" />
     <Text Include="goomba.txt" />
     <Text Include="grass.txt" />
+    <Text Include="leaf.txt" />
     <Text Include="mario-sample.txt" />
     <Text Include="mario.txt" />
     <Text Include="minigrass.txt" />

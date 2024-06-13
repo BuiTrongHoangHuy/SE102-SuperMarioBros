@@ -6,6 +6,7 @@
 #include "Score.h"
 #include "VirtualObject.h"
 #include "Turtle.h"
+#include "Leaf.h"
 void CGift::Render()
 {
 	int aniID = ID_ANI_GIFT;
@@ -81,13 +82,25 @@ void CGift::OnNoCollision(DWORD dt)
 }
 
 void CGift::OpenGift() {
+	CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
 	if (this->typeGift == 1) {
-		
-		LPGAMEOBJECT mushroom = new CMushroom(x, y);
-		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
-		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
-		if (this != nullptr) {
-			p->AddFowardNewObject(mushroom,this );
+		if (mario->GetLevel() == MARIO_LEVEL_BIG) {
+			LPGAMEOBJECT leaf = new CLeaf(x, y);
+			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+			if (this != nullptr) {
+				p->AddFowardNewObject(leaf, this);
+			}
+		}
+		else {
+
+			LPGAMEOBJECT mushroom = new CMushroom(x, y);
+			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+			if (this != nullptr) {
+				p->AddFowardNewObject(mushroom,this );
+			}
 		}
 		
 	}

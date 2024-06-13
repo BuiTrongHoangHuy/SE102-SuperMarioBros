@@ -21,3 +21,4 @@ height	240
 40	textures\sprite1.png
 50	textures\SpriteMarioNes3.png
 60	textures\enemies2.png
+70	textures\sprite08.png
