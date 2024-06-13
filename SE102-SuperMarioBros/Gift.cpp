@@ -90,11 +90,10 @@ void CGift::OpenGift() {
 			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
 			if (this != nullptr) {
-				p->AddFowardNewObject(leaf, this);
+				p->PushNewObject(leaf, this);
 			}
 		}
 		else {
-
 			LPGAMEOBJECT mushroom = new CMushroom(x, y);
 			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);

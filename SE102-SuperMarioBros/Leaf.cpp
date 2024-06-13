@@ -1,4 +1,5 @@
 #include "Leaf.h"
+#include "debug.h"
 
 CLeaf::CLeaf(float x, float y) :CGameObject(x, y)
 {
@@ -6,6 +7,7 @@ CLeaf::CLeaf(float x, float y) :CGameObject(x, y)
 	this->ay = LEAF_GRAVITY;
 	posY = y;
 	die_start = -1;
+	direction = 1;
 	SetState(LEAF_STATE_UP);
 }
 
@@ -42,18 +44,28 @@ void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-	if (state == LEAF_STATE_UP && y < posY - 16) {
+	if (state == LEAF_STATE_UP && vy >= 0) {
 		SetState(LEAF_STATE_DOWN);
 	}
+	if (state == LEAF_STATE_DOWN && vy <= 0) {
+		direction = -direction;
+		SetState(LEAF_STATE_DOWN);
+		DebugOut(L"[INFO] ${dt} doi chieu!\n");
+	}
+	vector<LPGAMEOBJECT> coObjects2;
 	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, &coObjects2);
 }
 
 
 void CLeaf::Render()
 {
-	int aniId = ID_ANI_LEAF;
-
+	int aniId = -1;
+	if (direction > 0) {
+		aniId = ID_ANI_LEAF_RIGHT;
+	}
+	else aniId = ID_ANI_LEAF;
+	
 	//CSprites* m = CSprites::GetInstance();
 	//m->Get(ID_ANI_LEAF)->Draw(x, y);
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -67,13 +79,18 @@ void CLeaf::SetState(int state)
 	{
 	case LEAF_STATE_UP:
 		vx = 0;
-		vy = -0.015f;
-		ay = 0;
+		vy = -0.5f;
+		ax = 0;
+		ay = 0.002f;
 		break;
 	case LEAF_STATE_DOWN:
-		vx = -0.04f;
-		vy = 0;
-		ay = 0.002f;
+		if (direction>0) {
+			vx = 0.0222f;
+		}
+		else vx = -0.0222f;
+		ax = 0;
+		vy = 0.03f;
+		ay = -0.00002;
 		break;
 
 	case LEAF_STATE_DIE:

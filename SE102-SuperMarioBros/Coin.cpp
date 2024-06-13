@@ -75,7 +75,7 @@ void CCoin::SetState(int state) {
 }
 void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
-		vy += ay * dt;
+	vy += ay * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 	

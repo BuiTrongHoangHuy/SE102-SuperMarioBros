@@ -5,7 +5,7 @@
 #define LEAF_WALKING_SPEED 0.05f
 
 #define LEAF_BBOX_WIDTH 16
-#define LEAF_BBOX_HEIGHT 16
+#define LEAF_BBOX_HEIGHT 14
 
 #define LEAF_DIE_TIMEOUT 500
 
@@ -14,7 +14,7 @@
 #define LEAF_STATE_DIE 300
 
 #define ID_ANI_LEAF 185000
-#define ID_ANI_LEAF 185001
+#define ID_ANI_LEAF_RIGHT 185001
 
 
 class CLeaf : public CGameObject
@@ -24,6 +24,7 @@ protected:
 	float ay;
 	float posY;
 	ULONGLONG die_start;
+	int direction;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

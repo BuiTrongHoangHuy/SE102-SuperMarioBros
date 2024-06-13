@@ -14,6 +14,7 @@
 #include "Gift.h"
 #include "Pipe.h"
 #include "Turtle.h"
+#include "Leaf.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -273,7 +274,7 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+			objects[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -358,4 +359,7 @@ void CPlayScene::AddFowardNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object)
 	{
 		objects.insert(it, newObject);
 		}
+}
+void CPlayScene::PushNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object) {
+		objects.push_back(newObject);
 }

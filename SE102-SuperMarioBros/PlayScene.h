@@ -16,6 +16,7 @@ protected:
 	LPGAMEOBJECT player;					
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> objects2;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -38,6 +39,7 @@ public:
 	void Clear();
 	void PurgeDeletedObjects();
 	void AddFowardNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object);
+	void PushNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object);
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
 
