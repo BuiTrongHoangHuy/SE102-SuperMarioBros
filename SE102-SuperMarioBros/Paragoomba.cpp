@@ -25,6 +25,12 @@ void CParagoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 		right = left + PARAGOOMBA_READY_JUMP_BBOX_WIDTH;
 		bottom = top + PARAGOOMBA_READY_JUMP_BBOX_HEIGHT ;
 	}
+	else if (state == PARAGOOMBA_WINGLESS_STATE_WALKING) {
+		left = x - PARAGOOMBA_WINGLESS_BBOX_WIDTH / 2;
+		top = y - PARAGOOMBA_WINGLESS_BBOX_HEIGHT / 2;
+		right = left + PARAGOOMBA_WINGLESS_BBOX_WIDTH;
+		bottom = top + PARAGOOMBA_WINGLESS_BBOX_HEIGHT;
+	}
 	else
 	{
 		left = x - PARAGOOMBA_BBOX_WIDTH / 2;
@@ -98,6 +104,9 @@ void CParagoomba::Render()
 	else if (state == PARAGOOMBA_STATE_JUMPING) {
 		aniId = ID_ANI_PARAGOOMBA_JUMPING;
 	}
+	else if (state == PARAGOOMBA_WINGLESS_STATE_WALKING) {
+		aniId = ID_ANI_PARAGOOMBA_WINGLESS_WALKING;
+	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
@@ -125,6 +134,8 @@ void CParagoomba::SetState(int state)
 		vy = -PARAGOOMBA_JUMP_SPEED_Y;
 		vx = -0.05f;
 		ay = 0.0015f;
+		break;
+	case PARAGOOMBA_WINGLESS_STATE_WALKING:
 		break;
 	}
 }

@@ -15,6 +15,7 @@
 #include "Fireball.h"
 #include "Pipe.h"
 #include "Leaf.h"
+#include "Paragoomba.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -162,6 +163,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireball(e);
 	else if (dynamic_cast<CLeaf*>(e->obj))
 		OnCollisionWithLeaf(e);
+	else if (dynamic_cast<CParagoomba*>(e->obj))
+		OnCollisionWithParagoomba(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -182,6 +185,46 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (untouchable == 0)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
+{
+	CParagoomba* paragoomba = dynamic_cast<CParagoomba*>(e->obj);
+
+	// jump on top >> kill paragoomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
+		{
+			if (paragoomba->GetState() != PARAGOOMBA_WINGLESS_STATE_WALKING) {
+				paragoomba->SetState(PARAGOOMBA_WINGLESS_STATE_WALKING);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else {
+				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+			}
+		}
+	}
+	else // hit by paragoomba
+	{
+		if (untouchable == 0)
+		{
+			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
