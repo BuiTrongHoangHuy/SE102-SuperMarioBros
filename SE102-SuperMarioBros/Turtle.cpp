@@ -2,6 +2,7 @@
 #include "VirtualObject.h"
 #include "PlayScene.h"
 #include "Gift.h"
+#include "Goomba.h"
 CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -38,7 +39,6 @@ void CTurtle::OnNoCollision(DWORD dt)
 
 void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CTurtle*>(e->obj)) return;
 	if (dynamic_cast<CGift*>(e->obj)) {
 		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
@@ -53,6 +53,13 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 			}
 		}
 	}
+	if (dynamic_cast<CGoomba*>(e->obj)) {
+		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+		if (e->nx != 0) {
+			goomba->SetState(GOOMBA_STATE_DIE);
+		}
+	}
+	if (!e->obj->IsBlocking()) return;
 	if (e->ny != 0)
 	{
 		vy = 0;

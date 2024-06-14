@@ -15,6 +15,7 @@
 #include "Pipe.h"
 #include "Turtle.h"
 #include "Leaf.h"
+#include "Paragoomba.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -120,6 +121,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
+	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
 	case OBJECT_TYPE_COIN: {
 		int typeCoin = (int)atoi(tokens[3].c_str());

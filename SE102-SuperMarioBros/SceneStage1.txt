@@ -70,7 +70,8 @@ leaf.txt
 
 # shadow white block
 6	580	104	8	72	104001
-
+#goomba
+2	560	150
 #Brick
 1	634	164
 #Platform high
@@ -105,3 +106,7 @@ leaf.txt
 10	560	126
 # MARIO
 0	40	120
+2	780	146
+2	830	146
+
+11	130	130
