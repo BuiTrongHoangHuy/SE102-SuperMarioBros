@@ -16,7 +16,7 @@
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
 
 #define MARIO_GRAVITY			0.002f
-
+#define MARIO_FLYING_SPEED	0.5f
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
 
 #define MARIO_STATE_DIE				-10
@@ -33,6 +33,10 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 #define MARIO_STATE_SIT_KICK		700
+
+#define MARIO_STATE_READY_FLYING	800
+#define MARIO_STATE_FLYING	900
+#define MARIO_STATE_FALLING		1000
 
 
 #pragma region ANIMATION_ID
@@ -122,6 +126,11 @@
 #define ID_ANI_MARIO_RACCON_HOLD_SHELL_LEFT 3901
 #define ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_RIGHT 4000
 #define ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_LEFT 4001
+
+#define ID_ANI_MARIO_RACCON_READY_FLY_RIGHT	4100
+#define ID_ANI_MARIO_RACCON_READY_FLY_LEFT	4101
+#define ID_ANI_MARIO_RACCON_FLYING_RIGHT 4200
+#define ID_ANI_MARIO_RACCON_FLYING_LEFT 4201
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -149,6 +158,8 @@
 #define MARIO_RACCON_SITTING_BBOX_HEIGHT 16
 
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define MARIO_FLY_TIME 3000
+#define MARIO_READY_FLY_TIME 300
 
 class CMario : public CGameObject
 {
@@ -166,6 +177,12 @@ class CMario : public CGameObject
 	BOOLEAN isReleaseHold = false;
 	CTurtle* holdTurtle = nullptr;
 	ULONGLONG time_kick;
+	ULONGLONG flyStart;
+	BOOLEAN isFlying;
+	ULONGLONG runningStart;
+	BOOLEAN canFly = false;
+	BOOLEAN aniFly = false;
+	ULONGLONG timeFly;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -195,6 +212,9 @@ public:
 		time_kick = -1;
 		isOnPlatform = false;
 		coin = 0;
+		flyStart = 0;
+		isFlying = false;
+		runningStart = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
