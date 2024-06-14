@@ -190,9 +190,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_RACCON) {
+					level = MARIO_LEVEL_BIG;
 					StartUntouchable();
 				}
 				else
@@ -230,9 +234,13 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 		{
 			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_RACCON) {
+					level = MARIO_LEVEL_BIG;
 					StartUntouchable();
 				}
 				else
@@ -248,9 +256,13 @@ void CMario::OnCollisionWithFireball(LPCOLLISIONEVENT e) {
 	CFireball* fireball = dynamic_cast<CFireball*>(e->obj);
 	if (untouchable == 0)
 	{
-		if (level > MARIO_LEVEL_SMALL)
+		if (level == MARIO_LEVEL_BIG)
 		{
 			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_RACCON) {
+			level = MARIO_LEVEL_BIG;
 			StartUntouchable();
 		}
 		else
@@ -486,7 +498,28 @@ int CMario::GetAniIdSmall()
 					}
 				}
 			}
+			if (untouchable != 0) {
+				if (vx == 0)
+				{
+					if (nx > 0) {
+						aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_RIGHT;
 
+					}
+					else {
+						aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_LEFT;
+
+					}
+				}
+				else if (vx > 0)
+				{
+					aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_RIGHT;
+				}
+				else // vx < 0
+				{
+					aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_LEFT;
+
+				}
+			}
 	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
 
 	return aniId;
@@ -616,7 +649,28 @@ int CMario::GetAniIdBig()
 			}
 			
 		}
+		if (untouchable != 0) {
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					aniId = ID_ANI_MARIO_UNTOUCHABLE_RIGHT;
 
+				}
+				else {
+					aniId = ID_ANI_MARIO_UNTOUCHABLE_LEFT;
+
+				}
+			}
+			else if (vx > 0)
+			{
+				aniId = ID_ANI_MARIO_UNTOUCHABLE_RIGHT;
+			}
+			else // vx < 0
+			{
+				aniId = ID_ANI_MARIO_UNTOUCHABLE_LEFT;
+
+			}
+		}
 	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
 
 	return aniId;
@@ -775,7 +829,7 @@ int CMario::GetAniIdRaccon() {
 			}
 
 		}
-
+		
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
 
 	return aniId;
@@ -892,6 +946,20 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
+	/*	if (maxVx > 0) {
+			ax = -0.0001f;
+			if (vx <= 0) {
+				ax = 0;
+				vx = 0.0f;
+			}
+		}
+		else {
+			ax = 0.0001f;
+			if (vx >= 0) {
+				ax = 0;
+				vx = 0;
+			}
+		}*/
 		ax = 0.0f;
 		vx = 0.0f;
 		break;
