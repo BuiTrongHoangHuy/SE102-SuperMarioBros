@@ -76,8 +76,9 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 	
-	if ((state == TURTLE_STATE_DIE) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
+	if (((state == TURTLE_STATE_DIE) || (state == TURTLE_STATE_SHELL)) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
+		
 		check = GetTickCount64();
 		SetState(TURTLE_STATE_HEAL);
 		//isDeleted = true;
@@ -86,6 +87,9 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state== TURTLE_STATE_HEAL && GetTickCount64() - check > 3000) {
 		die_start = -1;
 		SetState(TURTLE_STATE_WALKING);
+		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+		CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+		mario->SetIsHold(FALSE);
 	}
 	if (state == TURTLE_STATE_DIE) {
 		if (vx > 0) {

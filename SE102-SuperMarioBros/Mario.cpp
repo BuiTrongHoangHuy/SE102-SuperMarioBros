@@ -636,7 +636,7 @@ int CMario::GetAniIdBig()
 			}
 			else if (vx > 0)
 			{
-				if (ax < 0)
+				if (ax < 0 )
 					aniId = ID_ANI_MARIO_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X) {
 					aniId = ID_ANI_MARIO_RUNNING_RIGHT;
@@ -974,15 +974,15 @@ void CMario::SetState(int state)
 		break;
 
 	case MARIO_STATE_IDLE:
-	/*	if (maxVx > 0) {
-			ax = -0.0001f;
+		/*if (maxVx > 0) {
+			ax = -0.0002f;
 			if (vx <= 0) {
 				ax = 0;
 				vx = 0.0f;
 			}
 		}
 		else {
-			ax = 0.0001f;
+			ax = 0.0002f;
 			if (vx >= 0) {
 				ax = 0;
 				vx = 0;
