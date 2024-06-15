@@ -3,6 +3,7 @@
 #include "PlayScene.h"
 #include "Gift.h"
 #include "Goomba.h"
+#include "Paragoomba.h"
 CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -57,6 +58,12 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 		if (e->nx != 0) {
 			goomba->SetState(GOOMBA_STATE_DIE);
+		}
+	}
+	if (dynamic_cast<CParagoomba*>(e->obj)) {
+		CParagoomba* paragoomba = dynamic_cast<CParagoomba*>(e->obj);
+		if (e->nx != 0) {
+			paragoomba->SetState(PARAGOOMBA_STATE_DIE);
 		}
 	}
 	if (!e->obj->IsBlocking()) return;

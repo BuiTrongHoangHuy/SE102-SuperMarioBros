@@ -189,7 +189,7 @@ class CMario : public CGameObject
 	ULONGLONG runningStart;
 	BOOLEAN canFly = false;
 	BOOLEAN aniFly = false;
-	ULONGLONG timeFly;
+	ULONGLONG timeFly=0;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -214,7 +214,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 
-		level = MARIO_LEVEL_RACCON;
+		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		time_kick = -1;
