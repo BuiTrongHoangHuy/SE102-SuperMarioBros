@@ -62,8 +62,11 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	if (dynamic_cast<CParagoomba*>(e->obj)) {
 		CParagoomba* paragoomba = dynamic_cast<CParagoomba*>(e->obj);
-		if (e->nx != 0) {
-			paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+		if (state == TURTLE_STATE_SPIN) {
+
+			if (e->nx != 0) {
+				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+			}
 		}
 	}
 	if (!e->obj->IsBlocking()) return;
