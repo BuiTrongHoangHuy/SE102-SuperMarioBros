@@ -16,6 +16,7 @@
 #include "Pipe.h"
 #include "Leaf.h"
 #include "Paragoomba.h"
+#include "Flower.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -23,6 +24,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vx += ax * dt;
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
+	if (vy >= 0.28f) vy = 0.28f;
 	
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -169,6 +171,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CParagoomba*>(e->obj))
 		OnCollisionWithParagoomba(e);
+	else if (dynamic_cast<CFlower*>(e->obj))
+		OnCollisionWithFlower(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -315,6 +319,26 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 
 }
+void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e) {
+	CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+	if (flower->GetState() != FLOWER_STATE_HIDDEN) {
+		if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_RACCON) {
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
+	}
+}
+
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	CTurtle* turtle = dynamic_cast<CTurtle*>(e->obj);
 
@@ -334,9 +358,13 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 		{
 			if (turtle->GetState() != TURTLE_STATE_DIE && turtle->GetState()!= TURTLE_STATE_SHELL)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_RACCON) {
+					level = MARIO_LEVEL_BIG;
 					StartUntouchable();
 				}
 				else

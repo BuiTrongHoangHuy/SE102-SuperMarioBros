@@ -58,10 +58,12 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             isHidden = true;
         }
         else {
-            if (state == FLOWER_STATE_VISIBLE && GetTickCount64() - lastShootTime > FLOWER_SHOOT_INTERVAL) 
+            if (state == FLOWER_STATE_VISIBLE && GetTickCount64() - lastShootTime > 2*FLOWER_SHOOT_INTERVAL) 
             {
-                Shoot(marioX, marioY); 
-                lastShootTime = GetTickCount64(); 
+                Shoot(marioX, marioY);
+
+                SetState(FLOWER_STATE_DISAPPEARING);
+                lastShootTime = GetTickCount64();
             }
         }
     }
