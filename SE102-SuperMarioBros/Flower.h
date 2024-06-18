@@ -39,7 +39,7 @@ public:
 	void OnNoCollision(DWORD dt);
     void OnCollisionWith(LPCOLLISIONEVENT e);
     virtual void SetState(int state);
-    virtual int IsBlocking() { return 0; }	
+    virtual int IsBlocking() { return 1; }	
     virtual int IsCollidable() { return 1; };
 
     void Shoot(float marioX, float marioY) ;

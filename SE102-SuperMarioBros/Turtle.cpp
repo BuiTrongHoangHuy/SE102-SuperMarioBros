@@ -12,6 +12,7 @@ CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
 	die_start = -1;
 	vobject = new CVirtualObject(x, y + TURTLE_BBOX_HEIGHT / 2 );
 	SetState(TURTLE_STATE_WALKING);
+	preState = state;
 }
 
 void CTurtle::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -85,7 +86,10 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-	
+	if (preState != state) {
+		preState = state;
+		DebugOut(L"[INFO] KeyUp: %d\n", state);
+	}
 	if (((state == TURTLE_STATE_DIE) || (state == TURTLE_STATE_SHELL)) && (GetTickCount64() - die_start > TURTLE_DIE_TIMEOUT))
 	{
 		
@@ -141,7 +145,7 @@ void CTurtle::Render()
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	vobject->Render();
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CTurtle::SetState(int state)

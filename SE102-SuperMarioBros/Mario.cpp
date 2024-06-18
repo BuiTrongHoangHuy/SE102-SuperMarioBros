@@ -321,39 +321,64 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e) {
 	CFlower* flower = dynamic_cast<CFlower*>(e->obj);
-	if (flower->GetState() != FLOWER_STATE_HIDDEN) {
-		if (level == MARIO_LEVEL_BIG)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else if (level == MARIO_LEVEL_RACCON) {
-			level = MARIO_LEVEL_BIG;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
+	if (untouchable == 0)
+	{
+		if (flower->GetState() != FLOWER_STATE_HIDDEN) {
+			if (level == MARIO_LEVEL_BIG)
+			{
+				level = MARIO_LEVEL_SMALL;
+				StartUntouchable();
+			}
+			else if (level == MARIO_LEVEL_RACCON) {
+				level = MARIO_LEVEL_BIG;
+				StartUntouchable();
+			}
+			else
+			{
+				DebugOut(L">>> Mario DIE >>> \n");
+				SetState(MARIO_STATE_DIE);
+			}
 		}
 	}
 }
 
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	CTurtle* turtle = dynamic_cast<CTurtle*>(e->obj);
-
+	float tx, ty;
+	turtle->GetPosition(tx, ty);
 	// jump on top >> kill Turtle and deflect a bit 
 	if (e->ny < 0)
 	{
-		if (turtle->GetState() != TURTLE_STATE_DIE)
+		if (turtle->GetState() == TURTLE_STATE_DIE) {
+			if (tx <= x) {
+				isKick = true;
+				time_kick = GetTickCount64();
+				e->obj->SetSpeed(-0.3F, 0);
+				turtle->SetState(TURTLE_STATE_SPIN);
+			}
+			else {
+				isKick = true;
+				time_kick = GetTickCount64();
+				e->obj->SetSpeed(0.3F, 0);
+				turtle->SetState(TURTLE_STATE_SPIN);
+			}
+			vy = -0.05f;
+		}
+		else if (turtle->GetState() != TURTLE_STATE_DIE)
 		{
 			turtle->SetState(TURTLE_STATE_DIE);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			return;
 		}
+		DebugOut(L">>> Mario DIE >>> \n");
+
+		/*turtle->SetState(TURTLE_STATE_SPIN);
+		isKick = true;
+		time_kick = GetTickCount64();
+		e->obj->SetSpeed(-0.25F, 0);*/
 	}
 	else // hit by Turtle
 	{
-		
 		if (untouchable == 0)
 		{
 			if (turtle->GetState() != TURTLE_STATE_DIE && turtle->GetState()!= TURTLE_STATE_SHELL)
@@ -385,7 +410,7 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 				e->obj->SetState(TURTLE_STATE_SPIN);
 				isKick = true;
 				time_kick = GetTickCount64();
-				e->obj->SetSpeed(-0.2F, 0);
+				e->obj->SetSpeed(-0.25F, 0);
 				}
 
 			}
@@ -399,7 +424,7 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 				isKick = true;
 				time_kick = GetTickCount64();
 				e->obj->SetState(TURTLE_STATE_SPIN);
-				e->obj->SetSpeed(0.2f, 0);
+				e->obj->SetSpeed(0.25f, 0);
 				}
 			}
 		}
