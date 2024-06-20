@@ -551,28 +551,7 @@ int CMario::GetAniIdSmall()
 					}
 				}
 			}
-			if (untouchable != 0) {
-				if (vx == 0)
-				{
-					if (nx > 0) {
-						aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_RIGHT;
-
-					}
-					else {
-						aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_LEFT;
-
-					}
-				}
-				else if (vx > 0)
-				{
-					aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_RIGHT;
-				}
-				else // vx < 0
-				{
-					aniId = ID_ANI_MARIO_SMALL_UNTOUCHABLE_LEFT;
-
-				}
-			}
+		
 	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
 
 	return aniId;
@@ -701,28 +680,6 @@ int CMario::GetAniIdBig()
 				}
 			}
 			
-		}
-		if (untouchable != 0) {
-			if (vx == 0)
-			{
-				if (nx > 0) {
-					aniId = ID_ANI_MARIO_UNTOUCHABLE_RIGHT;
-
-				}
-				else {
-					aniId = ID_ANI_MARIO_UNTOUCHABLE_LEFT;
-
-				}
-			}
-			else if (vx > 0)
-			{
-				aniId = ID_ANI_MARIO_UNTOUCHABLE_RIGHT;
-			}
-			else // vx < 0
-			{
-				aniId = ID_ANI_MARIO_UNTOUCHABLE_LEFT;
-
-			}
 		}
 	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
 
@@ -889,6 +846,10 @@ int CMario::GetAniIdRaccon() {
 }
 void CMario::Render()
 {
+	if (untouchable != 0) {
+		if (GetTickCount64() % 2 == 0)
+			return;
+	}
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
