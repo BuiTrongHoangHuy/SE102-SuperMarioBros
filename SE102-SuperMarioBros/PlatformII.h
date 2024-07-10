@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #define BACKGROUND_OBJECT 1
+#define OBJECT_BLOCK	2
 // 
 // The most popular type of object in Mario! 
 // 
@@ -35,27 +36,7 @@ public:
 		this->spriteIdBottomRight = sprite_id_bottom_right;
 		this->type = type;
 	}
-	/*CPlatformII(float x, float y,
-		float cell_width, float cell_height, int length, int height,
-		int sprite_id_top_left, int sprite_id_top_middle, int sprite_id_top_right, int sprite_id_middle_left,
-		int sprite_id_middle, int sprire_id_middle_right, int sprite_id_bottom_left, int sprite_id_bottom_middle, int sprite_id_bottom_right) :CGameObject(x, y)
-	{
-		this->length = length;
-		this->height = height;
-		this->cellWidth = cell_width;
-		this->cellHeight = cell_height;
-		this->spriteIdTopLeft = sprite_id_top_left;
-		this->spriteIdTopMiddle = sprite_id_top_middle;
-		this->spriteIdTopRight = sprite_id_top_right;
-		this->spriteIdMiddleLeft = sprite_id_middle_left;
-		this->spriteIdMiddle = sprite_id_middle;
-		this->spriteIdMiddleRight = sprire_id_middle_right;
-		this->spriteIdBottomLeft = sprite_id_bottom_left;
-		this->spriteIdBottomMiddle = sprite_id_bottom_middle;
-		this->spriteIdBottomRight = sprite_id_bottom_right;
-		this->type = 0;
-	}*/
-
+	
 	int IsDirectionColliable(float nx, float ny);
 
 	void Render();

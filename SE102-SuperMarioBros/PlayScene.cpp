@@ -143,7 +143,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CTurtle(x, y);
 		break;
 	}
-	case OBJECT_TYPE_PIPE:	obj = new CPipe(x, y); break;
+	case OBJECT_TYPE_PIPE: {
+		int height = atoi(tokens[3].c_str());
+		obj = new CPipe(x, y,height); break; }
 	case OBJECT_TYPE_PLATFORM:
 	{
 
