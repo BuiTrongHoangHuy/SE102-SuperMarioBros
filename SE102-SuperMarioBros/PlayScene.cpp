@@ -123,7 +123,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_BRICK: {
+		int type = atoi(tokens[3].c_str());
+		obj = new CBrick(x, y,type); break; 
+	}
 	case OBJECT_TYPE_COIN: {
 		int typeCoin = (int)atoi(tokens[3].c_str());
 		obj = new CCoin(x, y,typeCoin);
@@ -173,12 +176,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_bottom_left = atoi(tokens[13].c_str());
 		int sprite_bottom_middle = atoi(tokens[14].c_str());
 		int sprite_bottom_right = atoi(tokens[15].c_str());
+		int type = atoi(tokens[16].c_str());
 		obj = new CPlatformII(
 			x, y,
 			cell_width, cell_height, length, height,
 			sprite_top_left, sprite_top_middle, sprite_top_right,
 			sprite_middle_left, sprite_middle, sprite_middle_right,
-			sprite_bottom_left, sprite_bottom_middle, sprite_bottom_right
+			sprite_bottom_left, sprite_bottom_middle, sprite_bottom_right,
+			type
 		);
 		break;
 	}
@@ -315,8 +320,21 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	float mx, my;
+	player->GetPosition(mx, my);
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (my > 30) {
+		cy = 0;
+	}
+	else {
+		cy = my - 30;
+		if (mario->GetIsOnplatform()) {
+				if(true)
+					cy -= 20;
+		}
+	}
+	
+	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
 }

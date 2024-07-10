@@ -246,6 +246,7 @@ public:
 	bool GetIsReleaseHold() { return this->isReleaseHold ; }
 	bool GetIsKick() { return this->isKick ; }
 	bool GetIsHold() { return this->isHold; }
+	bool GetIsOnplatform() { return this->isOnPlatform; }
 	int GetLevel() { return this->level; }
 	CTurtle* GetHoldTurtle() { return holdTurtle; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

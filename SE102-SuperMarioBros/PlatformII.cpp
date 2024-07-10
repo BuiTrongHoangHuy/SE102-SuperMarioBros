@@ -77,7 +77,7 @@ void CPlatformII::Render()
 			s->Get(this->spriteIdBottomRight)->Draw(xx, yy);
 		}
 	}
-		RenderBoundingBox();
+	//	RenderBoundingBox();
 }
 
 void CPlatformII::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -91,6 +91,7 @@ void CPlatformII::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 int CPlatformII::IsDirectionColliable(float nx, float ny)
 {
+	if (this->type ==BACKGROUND_OBJECT) return 0;
 	if (nx == 0 && ny == -1) return 1;
 	else return 0;
 }
