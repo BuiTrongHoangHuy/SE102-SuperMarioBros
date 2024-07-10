@@ -243,6 +243,7 @@
     <Text Include="flower.txt" />
     <Text Include="fireball.txt" />
     <Text Include="leaf.txt" />
+    <Text Include="Scene06.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

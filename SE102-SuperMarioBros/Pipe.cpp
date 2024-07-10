@@ -54,7 +54,7 @@ void CPipe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
-	if (check) {
+	if (check&&type==1) {
 		LPGAMEOBJECT flower = new CFlower(x+8, y+8);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);

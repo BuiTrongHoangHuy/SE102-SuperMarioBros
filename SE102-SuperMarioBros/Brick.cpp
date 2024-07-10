@@ -10,6 +10,9 @@ void CBrick::Render()
 		animations->Get(ID_ANI_BRICK_GLASS)->Render(x, y);
 
 	}
+	else if (type == 3) {
+		animations->Get(ID_ANI_BRICK_HIDDEN)->Render(x, y);
+	}
 	else {
 		animations->Get(ID_ANI_BRICK)->Render(x, y);
 	}

@@ -17,10 +17,12 @@
 
 class CPipe : public CGameObject {
 	int height;
+	int type;
 public:
 	bool check=true;
-	CPipe(float x, float y,int height) : CGameObject(x, y) {
+	CPipe(float x, float y,int height,int type) : CGameObject(x, y) {
 		this->height = height;
+		this->type = type;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

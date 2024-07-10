@@ -218,6 +218,7 @@
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />
+    <Text Include="Scene06.txt" />
     <Text Include="SceneStage1.txt" />
     <Text Include="pipe.txt" />
     <Text Include="Score.txt" />
