@@ -17,6 +17,7 @@
 #include "Turtle.h"
 #include "Leaf.h"
 #include "Paragoomba.h"
+#include "Spawner.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -207,9 +208,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
+		break;
 	}
-	break;
-
+	case OBJECT_TYPE_SPAWNER: {
+		float r = (float)atof(tokens[3].c_str());
+		float b = (float)atof(tokens[4].c_str());
+		string filepath = tokens[5];
+		obj = new CSpawner(x, y, r, b, filepath);
+		break;
+	}
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);

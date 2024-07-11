@@ -17,6 +17,7 @@
 #include "Leaf.h"
 #include "Paragoomba.h"
 #include "Flower.h"
+#include "Spawner.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -173,6 +174,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParagoomba(e);
 	else if (dynamic_cast<CFlower*>(e->obj))
 		OnCollisionWithFlower(e);
+	else if (dynamic_cast<CSpawner*>(e->obj))
+		OnCollisionWithSpawner(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -341,7 +344,11 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e) {
 		}
 	}
 }
+void CMario::OnCollisionWithSpawner(LPCOLLISIONEVENT e) {
+	CSpawner* spawner = dynamic_cast<CSpawner*>(e->obj);
 
+	DebugOut(L"[INFO] hehe!\n");
+}
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	CTurtle* turtle = dynamic_cast<CTurtle*>(e->obj);
 	float tx, ty;
