@@ -19,7 +19,7 @@ public:
         width = r - l;
         height = b - t;
         this->filePath = filePath;
-        //LoadSpawnList();
+        LoadSpawnList();
     }
 
     void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

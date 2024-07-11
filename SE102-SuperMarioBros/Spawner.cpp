@@ -69,9 +69,9 @@ void CSpawner::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void CSpawner::LoadSpawnList() {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", this->filePath);
-
+	wstring path = ToWSTR(filePath);
 	ifstream f;
-	f.open(this->filePath);
+	f.open(path.c_str());
 
 	// current resource section flag
 	int section = SCENE_SECTION_UNKNOWN;

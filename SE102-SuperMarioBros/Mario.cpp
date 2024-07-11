@@ -18,6 +18,7 @@
 #include "Paragoomba.h"
 #include "Flower.h"
 #include "Spawner.h"
+#include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -346,7 +347,10 @@ void CMario::OnCollisionWithFlower(LPCOLLISIONEVENT e) {
 }
 void CMario::OnCollisionWithSpawner(LPCOLLISIONEVENT e) {
 	CSpawner* spawner = dynamic_cast<CSpawner*>(e->obj);
-
+	CPlayScene* scene = (CPlayScene*)CGame::GetInstance()->GetCurrentScene();
+	for (auto& info : spawner->spawList2) {
+		scene->PushNewObject(info,info);
+	}
 	DebugOut(L"[INFO] hehe!\n");
 }
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
