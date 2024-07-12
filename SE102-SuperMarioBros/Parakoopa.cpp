@@ -55,27 +55,40 @@ void CParakoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 		CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
 		CGift* gift = dynamic_cast<CGift*>(e->obj);
-		if (e->nx != 0) {
-			if (gift->GetState() == GIFT_STATE_CLOSED) {
-				gift->SetState(GIFT_STATE_PREOPENED);
-				if (gift->GetType() == 0) {
-					mario->AddCoin();
+		if (state == PARAKOOPA_STATE_SPIN) {
+
+			if (e->nx != 0) {
+				if (gift->GetState() == GIFT_STATE_CLOSED) {
+					gift->SetState(GIFT_STATE_PREOPENED);
+					if (gift->GetType() == 0) {
+						mario->AddCoin();
+					}
 				}
 			}
 		}
 	}
 	if (dynamic_cast<CGoomba*>(e->obj)) {
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-		if (e->nx != 0) {
-			goomba->SetState(GOOMBA_STATE_DIE);
+		if (state == PARAKOOPA_STATE_SPIN) {
+			if (e->nx != 0) {
+				goomba->SetState(GOOMBA_STATE_DIE);
+			}
 		}
 	}
 	if (dynamic_cast<CParagoomba*>(e->obj)) {
 		CParagoomba* paragoomba = dynamic_cast<CParagoomba*>(e->obj);
-		if (state == TURTLE_STATE_SPIN) {
+		if (state == PARAKOOPA_STATE_SPIN) {
 
 			if (e->nx != 0) {
 				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+			}
+		}
+	}
+	if (dynamic_cast<CBrick*>(e->obj)) {
+		if (state == PARAKOOPA_STATE_SPIN) {
+			CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+			if (e->nx != 0 && brick->type == 2) {
+				brick->SetState(BRICK_STATE_DIE);
 			}
 		}
 	}

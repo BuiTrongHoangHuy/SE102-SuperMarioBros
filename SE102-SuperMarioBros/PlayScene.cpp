@@ -343,6 +343,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cx > 2500) cx = 2500;
 	float mx, my;
 	player->GetPosition(mx, my);
 	CMario* mario = dynamic_cast<CMario*>(player);

@@ -1120,7 +1120,7 @@ int CMario::GetAniIdRaccon() {
 					aniId = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X) {
 					aniId = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
-					if (GetTickCount64() - runningStart > 500) {
+					if (GetTickCount64() - runningStart > 600) {
 						aniId = ID_ANI_MARIO_RACCON_READY_FLY_RIGHT;
 						canFly = true;
 					}
@@ -1146,7 +1146,7 @@ int CMario::GetAniIdRaccon() {
 					aniId = ID_ANI_MARIO_RACCON_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X) {
 					aniId = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
-					if (GetTickCount64() - runningStart > 500) {
+					if (GetTickCount64() - runningStart > 600) {
 						aniId = ID_ANI_MARIO_RACCON_READY_FLY_LEFT;
 						canFly = true;
 					}

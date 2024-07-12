@@ -25,7 +25,8 @@ leaf.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 
-
+#Background end
+6	2648	-35	336	418	63001
 #BackgroundObject
 6	80	140	128	64	60000
 #BackgroundObject

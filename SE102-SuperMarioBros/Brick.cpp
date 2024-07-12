@@ -36,7 +36,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		CGameObject::Update(dt, coObjects);
 		CCollision::GetInstance()->Process(this, dt, coObjects);
 
-		if ((state == BRICK_STATE_DIE) && (GetTickCount64() - die_start > BRICK_DIE_TIMEOUT))
+		if ((state == BRICK_STATE_DIE) /*&& (GetTickCount64() - die_start > BRICK_DIE_TIMEOUT)*/)
 		{
 			if (isButton) {
 
