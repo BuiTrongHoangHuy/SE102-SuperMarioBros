@@ -38,7 +38,7 @@
 #define MARIO_STATE_READY_FLYING	800
 #define MARIO_STATE_FLYING	900
 #define MARIO_STATE_FALLING		1000
-
+#define MARIO_STATE_GLIDE_UP	1200
 #define MARIO_STATE_ATTACK 1100
 #define MARIO_ATTACK_DURATION 1000
 
@@ -142,6 +142,9 @@
 #define ID_ANI_MARIO_UNTOUCHABLE_LEFT 4301
 #define ID_ANI_MARIO_SMALL_UNTOUCHABLE_RIGHT 4400
 #define ID_ANI_MARIO_SMALL_UNTOUCHABLE_LEFT 4401
+
+#define ID_ANI_MARIO_RACCON_GLIDE_RIGHT 4500
+#define ID_ANI_MARIO_RACCON_GLIDE_LEFT 4501
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -196,6 +199,9 @@ class CMario : public CGameObject
 	BOOLEAN canFly = false;
 	BOOLEAN aniFly = false;
 	ULONGLONG timeFly=0;
+	BOOLEAN isFalling = false;
+	BOOLEAN aniFalling = false;
+	ULONGLONG timeFalling= 0;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);

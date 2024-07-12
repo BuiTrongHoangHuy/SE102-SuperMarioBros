@@ -24,6 +24,9 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	if (isOnPlatform) {
+		isFalling = false;
+	}
 	pressedS = false;
 	pressedW = false;
 	isTele = false;
@@ -36,7 +39,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (vy >= 0.28f) vy = 0.28f;
-	
+	if (vy <= 0&& !isFlying) {
+		isFalling = true;
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -53,6 +58,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	}
 	if (isFlying && GetTickCount64() - flyStart > MARIO_FLY_TIME) {
 		isFlying = false;
+		isFalling = true;
 		SetState(MARIO_STATE_FALLING);
 	}
 	canFly = false;
@@ -1005,11 +1011,16 @@ int CMario::GetAniIdRaccon() {
 				if (isHold) {
 					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_RIGHT;
 				}
-				if (aniFly) {
+				if (aniFly||aniFalling) {
 					aniId = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
-					if (GetTickCount64() - timeFly > 200) {
+					if (GetTickCount64() - timeFly > 300) {
 						aniFly = false;
 					}
+					if (GetTickCount64() - timeFalling > 300) {
+						aniFalling = false;
+					}
+				}
+				if (aniFalling) {
 				}
 			}
 			else {
@@ -1017,10 +1028,13 @@ int CMario::GetAniIdRaccon() {
 				if (isHold) {
 					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RUNNING_LEFT;
 				}
-				if (aniFly) {
+				if (aniFly||aniFalling) {
 					aniId = ID_ANI_MARIO_RACCON_FLYING_LEFT;
-					if (GetTickCount64() - timeFly > 200) {
+					if (GetTickCount64() - timeFly > 300) {
 						aniFly = false;
+					}
+					if (GetTickCount64() - timeFalling > 300) {
+						aniFalling = false;
 					}
 				}
 			}
@@ -1032,10 +1046,13 @@ int CMario::GetAniIdRaccon() {
 				if (isHold) {
 					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_RIGHT;
 				}
-				if (aniFly) {
+				if (aniFly||aniFalling) {
 					aniId = ID_ANI_MARIO_RACCON_FLYING_RIGHT;
-					if (GetTickCount64() - timeFly > 200) {
+					if (GetTickCount64() - timeFly > 300) {
 						aniFly = false;
+					}
+					if (GetTickCount64() - timeFalling > 300) {
+						aniFalling = false;
 					}
 				}
 			}
@@ -1044,10 +1061,13 @@ int CMario::GetAniIdRaccon() {
 				if (isHold) {
 					aniId = ID_ANI_MARIO_RACCON_HOLD_SHELL_LEFT;
 				}
-				if (aniFly) {
+				if (aniFly||aniFalling) {
 					aniId = ID_ANI_MARIO_RACCON_FLYING_LEFT;
-					if (GetTickCount64() - timeFly > 200) {
+					if (GetTickCount64() - timeFly > 300) {
 						aniFly = false;
+					}
+					if (GetTickCount64() - timeFalling > 300) {
+						aniFalling = false;
 					}
 				}
 			}
@@ -1227,7 +1247,6 @@ void CMario::SetState(int state)
 		if (isOnPlatform)
 		{
 			//isOnPlatform = false;
-
 			if (abs(this->vx) == MARIO_RUNNING_SPEED)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
 			else
@@ -1241,6 +1260,11 @@ void CMario::SetState(int state)
 			vy = -MARIO_JUMP_SPEED_Y;
 			timeFly = GetTickCount64();
 			aniFly = true;
+		}
+		if (isFalling) {
+			vy = -0.18f;
+			timeFalling = GetTickCount64();
+			aniFalling = true;
 		}
 		break;
 	case MARIO_STATE_READY_FLYING:
