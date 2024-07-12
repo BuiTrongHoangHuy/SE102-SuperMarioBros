@@ -112,7 +112,78 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 		
 	}
-	if (isReleaseHold) {
+	if (isHold && holdParakoopa != nullptr) {
+		float mx, my;
+		this->GetPosition(mx, my);
+		if (level == MARIO_LEVEL_BIG) {
+
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					this->holdParakoopa->SetPosition(mx + 12, my + 3);
+				}
+
+				else {
+					this->holdParakoopa->SetPosition(mx - 12, my + 3);
+				}
+			}
+			else if (vx > 0) {
+				this->holdParakoopa->SetPosition(mx + 12, my + 3);
+
+			}
+			else {
+				this->holdParakoopa->SetPosition(mx - 12, my + 3);
+
+			}
+			//if (vx<0)
+			//	this->holdTurtle->SetPosition(mx - 12, my+3);
+			//else {
+			//	this->holdTurtle->SetPosition(mx + 12, my+3 );
+			//}
+		}
+		else if (level == MARIO_LEVEL_RACCON) {
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					this->holdParakoopa->SetPosition(mx + 14, my + 3);
+				}
+
+				else {
+					this->holdParakoopa->SetPosition(mx - 14, my + 3);
+				}
+			}
+			else if (vx > 0) {
+				this->holdParakoopa->SetPosition(mx + 14, my + 3);
+
+			}
+			else {
+				this->holdParakoopa->SetPosition(mx - 14, my + 3);
+
+			}
+		}
+		else if (level == MARIO_LEVEL_SMALL) {
+			if (vx == 0)
+			{
+				if (nx > 0) {
+					this->holdParakoopa->SetPosition(mx + 12, my - 1);
+				}
+
+				else {
+					this->holdParakoopa->SetPosition(mx - 12, my - 1);
+				}
+			}
+			else if (vx > 0) {
+				this->holdParakoopa->SetPosition(mx + 12, my - 1);
+
+			}
+			else {
+				this->holdParakoopa->SetPosition(mx - 12, my - 1);
+
+			}
+		}
+
+	}
+	if (isReleaseHold&& holdTurtle!=nullptr) {
 		holdTurtle->SetState(TURTLE_STATE_SPIN);
 		isKick = true;
 		time_kick = GetTickCount64();
@@ -132,6 +203,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			holdTurtle->SetSpeed(-0.2f, 0);
 		}
 		holdTurtle = nullptr;
+		isReleaseHold = false;
+	}
+	if (isReleaseHold &&holdParakoopa!=nullptr) {
+		holdParakoopa->SetState(TURTLE_STATE_SPIN);
+		isKick = true;
+		time_kick = GetTickCount64();
+		if (vx == 0)
+		{
+			if (nx > 0) {
+				holdParakoopa->SetSpeed(0.2f, 0);
+			}
+			else {
+				holdParakoopa->SetSpeed(-0.2f, 0);
+			}
+		}
+		else if (vx > 0) {
+			holdParakoopa->SetSpeed(0.2f, 0);
+		}
+		else {
+			holdParakoopa->SetSpeed(-0.2f, 0);
+		}
+		holdParakoopa = nullptr;
 		isReleaseHold = false;
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
