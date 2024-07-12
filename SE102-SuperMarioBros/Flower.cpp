@@ -122,7 +122,7 @@ void CFlower::Render()
         int aniID = GetAniID();
         CAnimations::GetInstance()->Get(aniID)->Render(x, y);
     }
-    RenderBoundingBox();
+    //mRenderBoundingBox();
 }
 void CFlower::OnNoCollision(DWORD dt) {
   //  x += vx * dt;

@@ -34,6 +34,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R: // reset
 		//Reload();
 		break;
+	case DIK_A:
+		mario->SetState(MARIO_STATE_ATTACK);
+		break;
 	}
 }
 
@@ -76,6 +79,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			mario->SetState(MARIO_STATE_RUNNING_LEFT);
 		else
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
+	}
+	else if (mario->isAttacking)
+	{
+	//	mario->SetState(MARIO_STATE_ATTACK);
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);

@@ -35,6 +35,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+
+	if (isAttacking)
+	{
+		if (GetTickCount64() - attackStart > 700)
+		{
+			isAttacking = false;
+		}
+	}
 	if (isFlying && GetTickCount64() - flyStart > MARIO_FLY_TIME) {
 		isFlying = false;
 		SetState(MARIO_STATE_FALLING);
@@ -1049,7 +1057,14 @@ int CMario::GetAniIdRaccon() {
 			}
 
 		}
-		
+		if (state == MARIO_STATE_ATTACK) {
+			if (nx >= 0) {
+				aniId = ID_ANI_MARIO_RACCON_ATTACK_RIGHT;
+			}
+			else {
+				aniId = ID_ANI_MARIO_RACCON_ATTACK_LEFT;
+			}
+		}
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACCON_IDLE_RIGHT;
 
 	return aniId;
@@ -1168,7 +1183,15 @@ void CMario::SetState(int state)
 			y -= MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
-
+	case MARIO_STATE_ATTACK: {
+		if (this->level == MARIO_LEVEL_RACCON) {
+			attackStart = GetTickCount64();
+			vx = 0;
+			vy = 0;
+			isAttacking = true;
+		}
+		break;
+	}
 	case MARIO_STATE_IDLE:
 		/*if (maxVx > 0) {
 			ax = -0.0002f;

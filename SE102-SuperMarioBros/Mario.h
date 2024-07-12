@@ -39,6 +39,8 @@
 #define MARIO_STATE_FLYING	900
 #define MARIO_STATE_FALLING		1000
 
+#define MARIO_STATE_ATTACK 1100
+#define MARIO_ATTACK_DURATION 1000
 
 #pragma region ANIMATION_ID
 
@@ -133,7 +135,8 @@
 #define ID_ANI_MARIO_RACCON_FLYING_RIGHT 4200
 #define ID_ANI_MARIO_RACCON_FLYING_LEFT 4201
 
-
+#define ID_ANI_MARIO_RACCON_ATTACK_LEFT 4202
+#define ID_ANI_MARIO_RACCON_ATTACK_RIGHT 4203
 
 #define ID_ANI_MARIO_UNTOUCHABLE_RIGHT 4300
 #define ID_ANI_MARIO_UNTOUCHABLE_LEFT 4301
@@ -168,6 +171,7 @@
 #define MARIO_UNTOUCHABLE_TIME 2500
 #define MARIO_FLY_TIME 3000
 #define MARIO_READY_FLY_TIME 300
+
 
 class CMario : public CGameObject
 {
@@ -227,7 +231,11 @@ public:
 		flyStart = 0;
 		isFlying = false;
 		runningStart = 0;
+		attackStart = 0;
+		isAttacking = false;
 	}
+	BOOLEAN isAttacking;
+	ULONGLONG attackStart;
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
