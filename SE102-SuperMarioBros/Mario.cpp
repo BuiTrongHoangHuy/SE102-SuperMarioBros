@@ -23,6 +23,13 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
+	pressedS = false;
+	pressedW = false;
+	isTele = false;
+	DebugOut(L"[INFO] KeyUp: %d\n", state);
+	DebugOut(L"[INFO] isattacking: %d\n", isAttacking);
+	DebugOut(L"[INFO] tickcount: %d\n", GetTickCount64());
+	DebugOut(L"[INFO] attack: %d\n", attackStart);
 	vy += ay * dt;
 	vx += ax * dt;
 
@@ -38,7 +45,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isAttacking)
 	{
-		if (GetTickCount64() - attackStart > 700)
+		if (GetTickCount64() - attackStart > 500)
 		{
 			isAttacking = false;
 		}
@@ -279,11 +286,26 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFlower(e);
 	else if (dynamic_cast<CSpawner*>(e->obj))
 		OnCollisionWithSpawner(e);
-	else if(dynamic_cast<CParakoopa*>(e->obj))
+	else if (dynamic_cast<CParakoopa*>(e->obj))
 		OnCollisionWithParakoopa(e);
-
+	else if (dynamic_cast<CPipe*>(e->obj))
+		OnCollisionWithPipe(e);
 }
+void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
+	CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
 
+	if (e->ny < 0&& pipe->GetType() == 3) {
+		
+			this->SetPosition(pipe->teleX,pipe->teleY);
+			isTele = true;
+	}
+	if (e->ny >0 ) {
+		if (true && pipe->GetType() == 4) {
+			this->SetPosition(2328, 120);
+				isTele = true;
+		}
+	}
+}
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -291,6 +313,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
+		//this->SetPosition(2100, 250);
+
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
@@ -299,6 +323,13 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by Goomba
 	{
+		if (isAttacking) {
+			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				goomba->SetState(GOOMBA_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+			}
+		}
 		if (untouchable == 0)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
@@ -342,27 +373,27 @@ void CMario::OnCollisionWithParakoopa(LPCOLLISIONEVENT e)
 		}
 		else {
 
-		if (parakoopa->GetState() == PARAKOOPA_STATE_DIE) {
-			if (tx <= x) {
-				isKick = true;
-				time_kick = GetTickCount64();
-				e->obj->SetSpeed(-0.3F, 0);
-				parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+			if (parakoopa->GetState() == PARAKOOPA_STATE_DIE) {
+				if (tx <= x) {
+					isKick = true;
+					time_kick = GetTickCount64();
+					e->obj->SetSpeed(-0.3F, 0);
+					parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+				}
+				else {
+					isKick = true;
+					time_kick = GetTickCount64();
+					e->obj->SetSpeed(0.3F, 0);
+					parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+				}
+				vy = -0.05f;
 			}
-			else {
-				isKick = true;
-				time_kick = GetTickCount64();
-				e->obj->SetSpeed(0.3F, 0);
-				parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+			else if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
+			{
+				parakoopa->SetState(PARAKOOPA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				return;
 			}
-			vy = -0.05f;
-		}
-		else if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
-		{
-			parakoopa->SetState(PARAKOOPA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
-			return;
-		}
 		}
 		/*PARAKOOPA->SetState(PARAKOOPA_STATE_SPIN);
 		isKick = true;
@@ -371,6 +402,14 @@ void CMario::OnCollisionWithParakoopa(LPCOLLISIONEVENT e)
 	}
 	else // hit by PARAKOOPA
 	{
+		if (isAttacking) {
+			if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
+			{
+				parakoopa->SetState(PARAKOOPA_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+
+			}
+		}
 		if (untouchable == 0)
 		{
 			if (parakoopa->GetState() != PARAKOOPA_STATE_DIE && parakoopa->GetState() != PARAKOOPA_STATE_SHELL)
@@ -444,6 +483,14 @@ void CMario::OnCollisionWithParagoomba(LPCOLLISIONEVENT e)
 	}
 	else // hit by paragoomba
 	{
+		if (isAttacking) {
+			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
+			{
+				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+
+			}
+		}
 		if (untouchable == 0)
 		{
 			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
@@ -597,6 +644,14 @@ void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	}
 	else // hit by Turtle
 	{
+		if (isAttacking) {
+			if (turtle->GetState() != TURTLE_STATE_DIE)
+			{
+				turtle->SetState(TURTLE_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+
+			}
+		}
 		if (untouchable == 0)
 		{
 			if (turtle->GetState() != TURTLE_STATE_DIE && turtle->GetState()!= TURTLE_STATE_SHELL)
@@ -1010,7 +1065,7 @@ int CMario::GetAniIdRaccon() {
 					aniId = ID_ANI_MARIO_RACCON_BRACE_RIGHT;
 				else if (ax == MARIO_ACCEL_RUN_X) {
 					aniId = ID_ANI_MARIO_RACCON_RUNNING_RIGHT;
-					if (GetTickCount64() - runningStart > 1200) {
+					if (GetTickCount64() - runningStart > 500) {
 						aniId = ID_ANI_MARIO_RACCON_READY_FLY_RIGHT;
 						canFly = true;
 					}
@@ -1036,7 +1091,7 @@ int CMario::GetAniIdRaccon() {
 					aniId = ID_ANI_MARIO_RACCON_BRACE_LEFT;
 				else if (ax == -MARIO_ACCEL_RUN_X) {
 					aniId = ID_ANI_MARIO_RACCON_RUNNING_LEFT;
-					if (GetTickCount64() - runningStart > 1200) {
+					if (GetTickCount64() - runningStart > 500) {
 						aniId = ID_ANI_MARIO_RACCON_READY_FLY_LEFT;
 						canFly = true;
 					}
@@ -1186,9 +1241,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_ATTACK: {
 		if (this->level == MARIO_LEVEL_RACCON) {
 			attackStart = GetTickCount64();
-			vx = 0;
-			vy = 0;
+
 			isAttacking = true;
+			if (nx == -1) {
+				maxVx = -MARIO_WALKING_SPEED/2;
+			}
+			else {
+				maxVx = MARIO_WALKING_SPEED/2;
+			}
 		}
 		break;
 	}

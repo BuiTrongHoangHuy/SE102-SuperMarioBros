@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "debug.h"
+#include "Mario.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
 
@@ -339,7 +340,11 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 				x += dx;
 				y += dy;
 			}
-
+		if (dynamic_cast<CMario*>(objSrc)) {
+			CMario* mario = dynamic_cast<CMario*>(objSrc);
+			if (mario->isTele)
+				return;
+		}
 		objSrc->SetPosition(x, y);
 	}
 

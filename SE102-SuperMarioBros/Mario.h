@@ -210,11 +210,13 @@ class CMario : public CGameObject
 	void OnCollisionWithFlower(LPCOLLISIONEVENT e);
 	void OnCollisionWithSpawner(LPCOLLISIONEVENT e);
 	void OnCollisionWithParakoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithPipe(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccon();
 
 public:
+	BOOLEAN isTele = false;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
@@ -233,8 +235,12 @@ public:
 		runningStart = 0;
 		attackStart = 0;
 		isAttacking = false;
+		pressedS = false;
+		pressedW = false;
 	}
 	BOOLEAN isAttacking;
+	BOOLEAN pressedS;
+	BOOLEAN pressedW;
 	ULONGLONG attackStart;
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -242,10 +248,10 @@ public:
 
 	int IsCollidable()
 	{ 
-		return (state != MARIO_STATE_DIE); 
+		return (state != MARIO_STATE_DIE&&!isTele); 
 	}
 
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
+	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0&&!isTele); }
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);

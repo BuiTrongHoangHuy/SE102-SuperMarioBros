@@ -15,6 +15,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
+		mario->pressedS = true;
 		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);
@@ -36,6 +37,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_A:
 		mario->SetState(MARIO_STATE_ATTACK);
+		break;
+	case DIK_W:
+		mario->pressedW = true;
 		break;
 	}
 }
@@ -68,15 +72,20 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if (game->IsKeyDown(DIK_A))
+		if (game->IsKeyDown(DIK_A)&& !mario->isAttacking)
 			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
-		else
+		else if (mario->isAttacking) {
+
+		}else
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
-	else if (game->IsKeyDown(DIK_LEFT))
+	else if (game->IsKeyDown(DIK_LEFT) )
 	{
-		if (game->IsKeyDown(DIK_A))
+		if (game->IsKeyDown(DIK_A) && !mario->isAttacking)
 			mario->SetState(MARIO_STATE_RUNNING_LEFT);
+		else if (mario->isAttacking) {
+
+		}
 		else
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 	}

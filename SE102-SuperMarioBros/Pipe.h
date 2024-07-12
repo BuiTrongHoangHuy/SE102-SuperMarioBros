@@ -18,18 +18,26 @@
 class CPipe : public CGameObject {
 	int height;
 	int type;
+
 public:
 	bool check=true;
-	CPipe(float x, float y,int height,int type) : CGameObject(x, y) {
+	int teleX;
+	int teleY;
+	CPipe(float x, float y,int height,int type,int teleX=0,int teleY=0) : CGameObject(x, y) {
 		this->height = height;
 		this->type = type;
+		this->teleX = teleX;
+		this->teleY = teleY;
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 1; }
-	int IsCollidable() { return 0; };
+	int IsCollidable() { return 1; };
 	void RenderBoundingBox();
+	int GetType() {
+		return type;
+	}
 
 
 };

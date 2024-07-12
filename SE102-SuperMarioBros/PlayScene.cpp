@@ -155,7 +155,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE: {
 		int height = atoi(tokens[3].c_str());
 		int type = atoi(tokens[4].c_str());
-		obj = new CPipe(x, y,height,type); break; }
+		int teleX = atoi(tokens[5].c_str());
+		int teleY = atoi(tokens[6].c_str());
+		obj = new CPipe(x, y,height,type,teleX,teleY);
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 
@@ -337,7 +341,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
-	if (cx < 0) cx = 0;
+	/*if (cx < 0) cx = 0;
 	float mx, my;
 	player->GetPosition(mx, my);
 	CMario* mario = dynamic_cast<CMario*>(player);
@@ -350,7 +354,7 @@ void CPlayScene::Update(DWORD dt)
 				if(true)
 					cy -= 20;
 		}
-	}
+	}*/
 	
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
