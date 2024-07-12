@@ -10,6 +10,7 @@
 #define FLOWER_APPEAR_SPEED 0.03f
 #define FLOWER_BBOX_WIDTH 16
 #define FLOWER_BBOX_HEIGHT 32
+#define FLOWER_GREEN_BBOX_HEIGHT 22
 #define FLOWER_SHOOT_INTERVAL 2000 // 2 seconds
 
 #define ID_ANI_FLOWER 165000
@@ -24,6 +25,10 @@
 #define ID_ANI_FLOWER_READY_SHOOT_RIGHT_BOT 165007
 #define ID_ANI_FLOWER_READY_SHOOT_RIGHT_TOP 165008
 
+#define ID_ANI_GREEN_FLOWER_NO_SHOOT 166000
+
+#define TYPE_FLOWER_SHOOT  1
+#define TYPE_GREEN_FLOWER_NO_SHOOT  2
 class CFlower : public CGameObject
 {   
     float ay;
@@ -31,8 +36,9 @@ class CFlower : public CGameObject
     float endY;
     DWORD lastShootTime;
     bool isHidden;
+    int type;
 public:
-    CFlower(float x, float y);
+    CFlower(float x, float y,int type);
     virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
     virtual void Render();
     virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

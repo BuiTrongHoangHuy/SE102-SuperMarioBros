@@ -4,24 +4,38 @@
 #include "PlayScene.h"
 #include "Fireball.h"
 #include "Pipe.h"
-CFlower::CFlower(float x, float y) : CGameObject(x, y)
+CFlower::CFlower(float x, float y,int type) : CGameObject(x, y)
 {
     ay = 0.002f;
     this->x = x;
     this->y = y;
     this->startY = y;
-    this->endY = y - FLOWER_BBOX_HEIGHT;
+    if (type == TYPE_FLOWER_SHOOT) {
+        this->endY = y - FLOWER_BBOX_HEIGHT;
+    }
+    else {
+        this->endY = y - FLOWER_GREEN_BBOX_HEIGHT;
+    }
     this->isHidden = false;
+    this->type = type;
     SetState(FLOWER_STATE_APPEARING);
     lastShootTime = 0;
 }
 
 void CFlower::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-    left = x - FLOWER_BBOX_WIDTH / 2;
-    top = y - FLOWER_BBOX_HEIGHT / 2;
-    right = left + FLOWER_BBOX_WIDTH;
-    bottom = top + FLOWER_BBOX_HEIGHT +1;
+    if (type == TYPE_FLOWER_SHOOT) {
+        left = x - FLOWER_BBOX_WIDTH / 2;
+        top = y - FLOWER_BBOX_HEIGHT / 2;
+        right = left + FLOWER_BBOX_WIDTH;
+        bottom = top + FLOWER_BBOX_HEIGHT +1;
+    }
+    else {
+        left = x - FLOWER_BBOX_WIDTH / 2;
+        top = y - FLOWER_GREEN_BBOX_HEIGHT / 2;
+        right = left + FLOWER_BBOX_WIDTH;
+        bottom = top + FLOWER_GREEN_BBOX_HEIGHT + 1;
+    }
 }
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -47,24 +61,42 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             SetState(FLOWER_STATE_APPEARING);
         }
     } else if (state == FLOWER_STATE_VISIBLE) {
-        if ((marioX < x - 130) || (marioX > x + 130)){
-            SetState(FLOWER_STATE_DISAPPEARING);
-            isHidden = false;
-            DebugOut(L"[INFO] disappear!\n");
-
-        }
-        else if ((marioX > x - 30) && (marioX < x + 30)) {
-            SetState(FLOWER_STATE_DISAPPEARING);
-            isHidden = true;
-        }
-        else {
-            if (state == FLOWER_STATE_VISIBLE && GetTickCount64() - lastShootTime > 2*FLOWER_SHOOT_INTERVAL) 
-            {
-                Shoot(marioX, marioY);
-
+        if(type==TYPE_FLOWER_SHOOT){
+            if ((marioX < x - 130) || (marioX > x + 130)){
                 SetState(FLOWER_STATE_DISAPPEARING);
-                lastShootTime = GetTickCount64();
+                isHidden = false;
+                DebugOut(L"[INFO] disappear!\n");
+
             }
+            else if ((marioX > x - 30) && (marioX < x + 30)) {
+                SetState(FLOWER_STATE_DISAPPEARING);
+                isHidden = true;
+            }
+            else {
+                if (state == FLOWER_STATE_VISIBLE && GetTickCount64() - lastShootTime > 2*FLOWER_SHOOT_INTERVAL) 
+                {
+                    Shoot(marioX, marioY);
+
+                    SetState(FLOWER_STATE_DISAPPEARING);
+                    lastShootTime = GetTickCount64();
+                }
+            }
+        }
+        else if(type==TYPE_GREEN_FLOWER_NO_SHOOT) {
+
+            if ((marioX < x - 130) || (marioX > x + 130)) {
+                SetState(FLOWER_STATE_DISAPPEARING);
+                isHidden = false;
+            }
+            else if ((marioX > x - 30) && (marioX < x + 30)) {
+                SetState(FLOWER_STATE_DISAPPEARING);
+                isHidden = true;
+            }
+            else {
+                SetState(FLOWER_STATE_DISAPPEARING);
+                isHidden = false;
+            }
+            
         }
     }
     else if (state == FLOWER_STATE_HIDDEN) {
@@ -138,31 +170,37 @@ int CFlower::GetAniID() {
     float marioX, marioY;
     mario->GetPosition(marioX, marioY);
     int aniID = -1;
-    if (marioX <= x && marioY>=y) {
-        aniID = ID_ANI_FLOWER_APPEAR_LEFT_BOT;
-    }
-    else if(marioX <=x && marioY < y) {
-        aniID = ID_ANI_FLOWER_APPEAR_LEFT_TOP;
-    }
-    else if (marioX > x && marioY >= y) {
-        aniID = ID_ANI_FLOWER_APPEAR_RIGHT_BOT;
-    }
-    else if (marioX > x && marioY < y) {
-        aniID = ID_ANI_FLOWER_APPEAR_RIGHT_TOP;
-    }
-    if (state == FLOWER_STATE_VISIBLE) {
-        if (marioX <= x && marioY >= y) {
-            aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_BOT;
+    if (type == TYPE_FLOWER_SHOOT) {
+
+        if (marioX <= x && marioY>=y) {
+            aniID = ID_ANI_FLOWER_APPEAR_LEFT_BOT;
         }
-        else if (marioX <= x && marioY < y) {
-            aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_TOP;
+        else if(marioX <=x && marioY < y) {
+            aniID = ID_ANI_FLOWER_APPEAR_LEFT_TOP;
         }
         else if (marioX > x && marioY >= y) {
-            aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_BOT;
+            aniID = ID_ANI_FLOWER_APPEAR_RIGHT_BOT;
         }
         else if (marioX > x && marioY < y) {
-            aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_TOP;
+            aniID = ID_ANI_FLOWER_APPEAR_RIGHT_TOP;
         }
+        if (state == FLOWER_STATE_VISIBLE) {
+            if (marioX <= x && marioY >= y) {
+                aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_BOT;
+            }
+            else if (marioX <= x && marioY < y) {
+                aniID = ID_ANI_FLOWER_READY_SHOOT_LEFT_TOP;
+            }
+            else if (marioX > x && marioY >= y) {
+                aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_BOT;
+            }
+            else if (marioX > x && marioY < y) {
+                aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_TOP;
+            }
+        }
+    }
+    else if (type == TYPE_GREEN_FLOWER_NO_SHOOT) {
+        aniID = ID_ANI_GREEN_FLOWER_NO_SHOOT;
     }
     return aniID;
 }

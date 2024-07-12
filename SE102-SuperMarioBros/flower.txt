@@ -14,6 +14,11 @@
 #Right bot
 162001	1233	144	1248	175	60
 162002	1217	144	1232	175	60
+
+
+#Green flower
+163001	0	145	14	175	60
+163002	16	144	31	175	60
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #Appear left bot
@@ -33,3 +38,6 @@
 165007	162001	200
 #SHOOT right top
 165008	162003	200
+
+#grenn
+166000	163001	100	163002	100

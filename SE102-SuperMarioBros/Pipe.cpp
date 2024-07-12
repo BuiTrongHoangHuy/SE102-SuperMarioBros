@@ -55,7 +55,7 @@ void CPipe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
 	if (check&&type==1) {
-		LPGAMEOBJECT flower = new CFlower(x+8, y+8);
+		LPGAMEOBJECT flower = new CFlower(x+8, y+8,this->type);
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
 		if (this != nullptr) {
@@ -63,6 +63,16 @@ void CPipe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){
 		}
 		check = false;
 	}
+	else if (check && type == 2) {
+		LPGAMEOBJECT flower = new CFlower(x + 8, y +8, this->type);
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+		if (this != nullptr) {
+			p->AddFowardNewObject(flower, this);
+		}
+		check = false;
+	}
+	
 }
 
 void CPipe::RenderBoundingBox() {
