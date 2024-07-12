@@ -128,7 +128,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PARAKOOPA: obj = new CParakoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
-		obj = new CBrick(x, y,type); break; 
+		int isButton = atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, type, isButton); break;
 	}
 	case OBJECT_TYPE_COIN: {
 		int typeCoin = (int)atoi(tokens[3].c_str());
@@ -341,7 +342,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 
-	/*if (cx < 0) cx = 0;
+	if (cx < 0) cx = 0;
 	float mx, my;
 	player->GetPosition(mx, my);
 	CMario* mario = dynamic_cast<CMario*>(player);
@@ -354,8 +355,10 @@ void CPlayScene::Update(DWORD dt)
 				if(true)
 					cy -= 20;
 		}
-	}*/
-	
+	}
+	if (mario->isInHiddenMap) {
+		cy = 520;
+	}
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
@@ -428,4 +431,19 @@ void CPlayScene::AddFowardNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object)
 }
 void CPlayScene::PushNewObject(LPGAMEOBJECT newObject, LPGAMEOBJECT Object) {
 		objects.push_back(newObject);
+}
+void CPlayScene::ChangeCoin() {
+	for (auto& object : objects) {
+		if (dynamic_cast<CBrick*>(object)) {
+			CBrick* brick = dynamic_cast<CBrick*>(object);
+			if (brick->type != 2) continue;
+			else {
+				float x, y;
+				brick->GetPosition(x, y);
+				LPGAMEOBJECT coin = new CCoin(x, y,0);
+				objects.push_back(coin);
+				brick->Delete();
+			}
+		}
+	}
 }

@@ -20,6 +20,7 @@
 #include "Spawner.h"
 #include "PlayScene.h"
 #include "Parakoopa.h"
+#include "Button.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -45,7 +46,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isAttacking)
 	{
-		if (GetTickCount64() - attackStart > 500)
+		if (GetTickCount64() - attackStart > 250)
 		{
 			isAttacking = false;
 		}
@@ -290,6 +291,38 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParakoopa(e);
 	else if (dynamic_cast<CPipe*>(e->obj))
 		OnCollisionWithPipe(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithGlass(e);
+	else if (dynamic_cast<CButton*>(e->obj))
+		OnCollisionWithButton(e);
+}
+void CMario::OnCollisionWithButton(LPCOLLISIONEVENT e) {
+	CButton* button = dynamic_cast<CButton*>(e->obj);
+
+	if (e->ny < 0)
+	{
+		//this->SetPosition(2100, 250);
+
+		if (button->GetState() != BUTTON_STATE_DIE)
+		{
+			button->SetState(BUTTON_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+	}
+}
+void CMario::OnCollisionWithGlass(LPCOLLISIONEVENT e) {
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (brick->type != 2)
+		return;
+	else {
+		if (isAttacking) {
+			if (brick->GetState() != BRICK_STATE_DIE)
+			{
+				brick->SetState(BRICK_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+			}
+		}
+	}
 }
 void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
 	CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
@@ -298,11 +331,13 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
 		
 			this->SetPosition(pipe->teleX,pipe->teleY);
 			isTele = true;
+			isInHiddenMap = true;
 	}
 	if (e->ny >0 ) {
 		if (true && pipe->GetType() == 4) {
-			this->SetPosition(2328, 120);
+			this->SetPosition(pipe->teleX, pipe->teleY);
 				isTele = true;
+				isInHiddenMap = false;
 		}
 	}
 }

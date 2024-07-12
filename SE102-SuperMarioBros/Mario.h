@@ -211,11 +211,14 @@ class CMario : public CGameObject
 	void OnCollisionWithSpawner(LPCOLLISIONEVENT e);
 	void OnCollisionWithParakoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipe(LPCOLLISIONEVENT e);
+	void OnCollisionWithGlass(LPCOLLISIONEVENT e);
+	void OnCollisionWithButton(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccon();
 
 public:
+	BOOLEAN isInHiddenMap = false;
 	BOOLEAN isTele = false;
 	CMario(float x, float y) : CGameObject(x, y)
 	{

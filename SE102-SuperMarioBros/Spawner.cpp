@@ -122,7 +122,8 @@ void CSpawner::LoadObject(string line)
 	case OBJECT_TYPE_PARAKOOPA: obj = new CParakoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
-		obj = new CBrick(x, y, type); break;
+		int isButton = atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, type,isButton); break;
 	}
 	case OBJECT_TYPE_COIN: {
 		int typeCoin = (int)atoi(tokens[3].c_str());
