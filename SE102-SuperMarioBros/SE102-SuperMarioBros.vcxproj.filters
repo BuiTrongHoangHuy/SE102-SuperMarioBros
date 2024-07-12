@@ -114,6 +114,9 @@
     <ClCompile Include="Spawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parakoopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -224,6 +227,9 @@
     <ClInclude Include="Spawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parakoopa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="brick.txt" />
@@ -252,6 +258,7 @@
     <Text Include="Scene06.txt" />
     <Text Include="spawner1.txt" />
     <Text Include="spawner2.txt" />
+    <Text Include="spawner3.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

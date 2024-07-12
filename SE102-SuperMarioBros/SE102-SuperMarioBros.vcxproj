@@ -146,6 +146,7 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="Paragoomba.cpp" />
+    <ClCompile Include="Parakoopa.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlatformII.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="Paragoomba.h" />
+    <ClInclude Include="Parakoopa.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlatformII.h" />
@@ -226,6 +228,7 @@
     <Text Include="Score.txt" />
     <Text Include="spawner1.txt" />
     <Text Include="spawner2.txt" />
+    <Text Include="spawner3.txt" />
     <Text Include="turtle.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -270,6 +270,7 @@ leaf.txt
 #50	200	160	216	180	7
 60	424	100	440	250	spawner1.txt
 60	663	50	680	250	spawner2.txt
+60	1160	50	1180	250	spawner3.txt
 
 # MARIO
 0	40	120

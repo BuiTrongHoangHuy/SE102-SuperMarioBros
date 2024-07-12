@@ -123,9 +123,11 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	vobject->Update(dt, coObjects);
-	if (state == TURTLE_STATE_WALKING) {
-		if (!vobject->GetIsOnPlatform()) {
-			vx = -vx;
+	if (this->type == TYPE_TURTLE) {
+		if (state == TURTLE_STATE_WALKING) {
+			if (!vobject->GetIsOnPlatform()) {
+				vx = -vx;
+			}
 		}
 	}
 	CGameObject::Update(dt, coObjects);
