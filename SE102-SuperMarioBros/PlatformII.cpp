@@ -31,11 +31,23 @@ void CPlatformII::RenderBoundingBox()
 
 void CPlatformII::Render()
 {
+	
 	if (this->length <= 0 || this->height <=0) return;
 	float xx = x;
 	float yy = y;
 	CSprites* s = CSprites::GetInstance();
+	if (hasShadow==1) {
 
+	float bx, by;
+	bx = x+ this->length * 16 -8;
+	by = y + 8;
+	for (int j = 1; j <= this->height - 1; j++) {
+		s->Get(ID_ANI_BLACK)->Draw(bx, by);
+		by += this->cellHeight;
+	}
+	s->Get(ID_ANI_BLACK)->Draw(bx, by-8);
+
+	}
 	//Draw top row
 	s->Get(this->spriteIdTopLeft)->Draw(xx, yy);
 	xx += this->cellWidth;

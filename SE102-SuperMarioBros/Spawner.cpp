@@ -169,42 +169,7 @@ void CSpawner::LoadObject(string line)
 
 		break;
 	}
-	case OBJECT_TYPE_PLATFORMII: {
-		float cell_width = (float)atof(tokens[3].c_str());
-		float cell_height = (float)atof(tokens[4].c_str());
-		int length = atoi(tokens[5].c_str());
-		int height = atoi(tokens[6].c_str());
-		int sprite_top_left = atoi(tokens[7].c_str());
-		int sprite_top_middle = atoi(tokens[8].c_str());
-		int sprite_top_right = atoi(tokens[9].c_str());
-		int sprite_middle_left = atoi(tokens[10].c_str());
-		int sprite_middle = atoi(tokens[11].c_str());
-		int sprite_middle_right = atoi(tokens[12].c_str());
-		int sprite_bottom_left = atoi(tokens[13].c_str());
-		int sprite_bottom_middle = atoi(tokens[14].c_str());
-		int sprite_bottom_right = atoi(tokens[15].c_str());
-		int type = atoi(tokens[16].c_str());
-		obj = new CPlatformII(
-			x, y,
-			cell_width, cell_height, length, height,
-			sprite_top_left, sprite_top_middle, sprite_top_right,
-			sprite_middle_left, sprite_middle, sprite_middle_right,
-			sprite_bottom_left, sprite_bottom_middle, sprite_bottom_right,
-			type
-		);
-		break;
-	}
-	case OBJECT_TYPE_BACKGROUNDOBJECT:
-	{
-		float width = (float)atof(tokens[3].c_str());
-		float height = (float)atof(tokens[4].c_str());
-		int sprite = atoi(tokens[5].c_str());
-		obj = new CBackGroundObject(
-			x, y, width, height, sprite
-		);
-		break;
-	}
-
+	
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

@@ -24,3 +24,4 @@ height	240
 60	textures\enemies2.png
 70	textures\sprite08.png
 80	textures\sprite07.png
+90	textures\score.png

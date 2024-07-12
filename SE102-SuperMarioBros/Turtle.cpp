@@ -124,17 +124,17 @@ void CTurtle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state == TURTLE_STATE_DIE) {
 		if (vx > 0) {
-			this->vobject->SetPosition(x + 8, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
+			this->vobject->SetPosition(x + 5, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
 		}
 		else
-			this->vobject->SetPosition(x - 8, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
+			this->vobject->SetPosition(x - 5, y + TURTLE_BBOX_HEIGHT_DIE / 2 - 2);
 	}
 	else {
 
 		if (vx > 0) {
-			this->vobject->SetPosition( x+8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+			this->vobject->SetPosition( x+5, y + TURTLE_BBOX_HEIGHT / 2 -2 );
 		} else
-			this->vobject->SetPosition(x-8, y + TURTLE_BBOX_HEIGHT / 2 -2 );
+			this->vobject->SetPosition(x-5, y + TURTLE_BBOX_HEIGHT / 2 -2 );
 	}
 
 	vobject->Update(dt, coObjects);

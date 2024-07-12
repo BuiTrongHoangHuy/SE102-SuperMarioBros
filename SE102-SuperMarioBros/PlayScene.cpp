@@ -23,9 +23,10 @@ using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
-{
+{	
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
+	scoreboard = new CScoreboard();
 }
 
 
@@ -194,13 +195,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_bottom_middle = atoi(tokens[14].c_str());
 		int sprite_bottom_right = atoi(tokens[15].c_str());
 		int type = atoi(tokens[16].c_str());
+		int hasShadow = atoi(tokens[17].c_str());
 		obj = new CPlatformII(
 			x, y,
 			cell_width, cell_height, length, height,
 			sprite_top_left, sprite_top_middle, sprite_top_right,
 			sprite_middle_left, sprite_middle, sprite_middle_right,
 			sprite_bottom_left, sprite_bottom_middle, sprite_bottom_right,
-			type
+			type,hasShadow
 		);
 		break;
 	}
@@ -369,6 +371,7 @@ void CPlayScene::Render()
 {
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	scoreboard->Render();
 }
 
 /*
