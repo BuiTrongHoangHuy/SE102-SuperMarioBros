@@ -1,0 +1,31 @@
+# list of object assets to load in this scene
+[ASSETS]
+mario.txt
+coin.txt
+cloud.txt
+brick.txt
+grass.txt
+floor.txt
+minigrass.txt
+gift.txt
+organeblock.txt
+blueblock.txt
+pipe.txt
+mushroom.txt
+score.txt
+turtle.txt
+goomba.txt
+flower.txt
+fireball.txt
+leaf.txt
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# See OBJECT_TYPE constants in AssetIDs.h
+
+
+2	900	146
+2	950	146
+#paragoomba
+11	1000	130

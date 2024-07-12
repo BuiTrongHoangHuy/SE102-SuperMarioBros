@@ -352,6 +352,7 @@ void CMario::OnCollisionWithSpawner(LPCOLLISIONEVENT e) {
 		scene->PushNewObject(info,info);
 	}
 	DebugOut(L"[INFO] hehe!\n");
+	spawner->Delete();
 }
 void CMario::OnCollisionWithTurtle(LPCOLLISIONEVENT e) {
 	CTurtle* turtle = dynamic_cast<CTurtle*>(e->obj);

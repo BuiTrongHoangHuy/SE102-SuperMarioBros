@@ -224,6 +224,8 @@
     <Text Include="SceneStage1.txt" />
     <Text Include="pipe.txt" />
     <Text Include="Score.txt" />
+    <Text Include="spawner1.txt" />
+    <Text Include="spawner2.txt" />
     <Text Include="turtle.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -4,10 +4,12 @@
 #include "Gift.h"
 #include "Goomba.h"
 #include "Paragoomba.h"
-CTurtle::CTurtle(float x, float y) :CGameObject(x, y)
+CTurtle::CTurtle(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = TURTLE_GRAVITY;
+	this->type = type;
+	DebugOut(L"[INFO] KeyUp: %d\n", this->type);
 	isOnPlatform = false;
 	die_start = -1;
 	vobject = new CVirtualObject(x, y + TURTLE_BBOX_HEIGHT / 2 );
@@ -137,7 +139,12 @@ void CTurtle::Render()
 	int aniId = -1;
 	if (state == TURTLE_STATE_DIE)
 	{
-		aniId = ID_ANI_TURTLE_DIE;
+		if (this->type == TYPE_TURTLE) {
+			aniId = ID_ANI_TURTLE_DIE;
+		}
+		else {
+			aniId = ID_ANI_GREEN_TURTLE_DIE;
+		}
 	}
 	else {
 		aniId=GetAniId();
@@ -178,21 +185,42 @@ void CTurtle::SetState(int state)
 }
 int CTurtle:: GetAniId() {
 	int aniID = -1;
-	if (this->isOnPlatform) {
-		if (vx >= 0)
-			aniID = ID_ANI_TURTLE_WALKING_RIGHT;
-		else aniID = ID_ANI_TURTLE_WALKING_LEFT;
+	if (this->type == TYPE_TURTLE) {
+
+		if (this->isOnPlatform) {
+			if (vx >= 0)
+				aniID = ID_ANI_TURTLE_WALKING_RIGHT;
+			else aniID = ID_ANI_TURTLE_WALKING_LEFT;
+		}
+		if (state == TURTLE_STATE_SPIN) {
+			aniID = ID_ANI_TURTLE_SPIN;
+		}
+		if (state == TURTLE_STATE_HEAL) {
+			aniID = ID_ANI_TURTLE_HEAL;
+		}
+		if (state == TURTLE_STATE_SHELL) {
+			aniID = ID_ANI_TURTLE_DIE;
+		}
+		if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
 	}
-	if (state == TURTLE_STATE_SPIN) {
-		aniID = ID_ANI_TURTLE_SPIN;
+	else if (this->type == TYPE_TURTLE_GREEN) {
+
+		if (this->isOnPlatform) {
+			if (vx >= 0)
+				aniID = ID_ANI_GREEN_TURTLE_WALKING_RIGHT;
+			else aniID = ID_ANI_GREEN_TURTLE_WALKING_LEFT;
+		}
+		if (state == TURTLE_STATE_SPIN) {
+			aniID = ID_ANI_GREEN_TURTLE_SPIN;
+		}
+		if (state == TURTLE_STATE_HEAL) {
+			aniID = ID_ANI_GREEN_TURTLE_HEAL;
+		}
+		if (state == TURTLE_STATE_SHELL) {
+			aniID = ID_ANI_GREEN_TURTLE_DIE;
+		}
+		if (aniID == -1) aniID = ID_ANI_GREEN_TURTLE_IDLE;
 	}
-	if (state == TURTLE_STATE_HEAL) {
-		aniID = ID_ANI_TURTLE_HEAL;
-	}
-	if (state == TURTLE_STATE_SHELL) {
-		aniID = ID_ANI_TURTLE_DIE;
-	}
-	if (aniID == -1) aniID = ID_ANI_TURTLE_IDLE;
 	return aniID;
 }
 

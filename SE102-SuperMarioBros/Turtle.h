@@ -18,12 +18,12 @@
 #define TURTLE_STATE_SHELL 500
 
 
-#define ID_ANI_TURTLE_WALKING_LEFT 155006
-#define ID_ANI_TURTLE_WALKING_RIGHT 155007
-#define ID_ANI_TURTLE_DIE 155008
-#define ID_ANI_TURTLE_IDLE 155009
-#define ID_ANI_TURTLE_SPIN 155010
-#define ID_ANI_TURTLE_HEAL 155011
+#define ID_ANI_TURTLE_WALKING_LEFT 155000
+#define ID_ANI_TURTLE_WALKING_RIGHT 155001
+#define ID_ANI_TURTLE_DIE 155002
+#define ID_ANI_TURTLE_IDLE 155003
+#define ID_ANI_TURTLE_SPIN 155004
+#define ID_ANI_TURTLE_HEAL 155005
 
 #define ID_ANI_GREEN_TURTLE_WALKING_LEFT 155006
 #define ID_ANI_GREEN_TURTLE_WALKING_RIGHT 155007
@@ -32,11 +32,15 @@
 #define ID_ANI_GREEN_TURTLE_SPIN 155010
 #define ID_ANI_GREEN_TURTLE_HEAL 155011
 
+#define TYPE_TURTLE 1
+#define TYPE_TURTLE_GREEN 2
+
 class CTurtle : public CGameObject
 {
 protected:
 	float ax;
 	float ay;
+	int type;
 	BOOLEAN isOnPlatform;
 
 	CVirtualObject* vobject;
@@ -56,6 +60,6 @@ protected:
 
 
 public:
-	CTurtle(float x, float y);
+	CTurtle(float x, float y,int type =1);
 	virtual void SetState(int state);
 };

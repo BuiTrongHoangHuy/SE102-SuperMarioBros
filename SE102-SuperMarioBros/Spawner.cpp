@@ -135,7 +135,13 @@ void CSpawner::LoadObject(string line)
 	}
 	case OBJECT_TYPE_TURTLE:
 	{
-		obj = new CTurtle(x, y);
+		if (!tokens[3].empty()) {
+			int type = (int)atoi(tokens[3].c_str());
+			obj = new CTurtle(x, y, type);
+		}
+		else {
+			obj = new CTurtle(x, y);
+		}
 		break;
 	}
 	case OBJECT_TYPE_PIPE: {

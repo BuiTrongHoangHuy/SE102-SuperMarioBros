@@ -250,6 +250,8 @@
     <Text Include="fireball.txt" />
     <Text Include="leaf.txt" />
     <Text Include="Scene06.txt" />
+    <Text Include="spawner1.txt" />
+    <Text Include="spawner2.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
