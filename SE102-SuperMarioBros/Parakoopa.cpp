@@ -10,9 +10,9 @@ CParakoopa::CParakoopa(float x, float y) :CGameObject(x, y)
 	this->ay = PARAKOOPA_GRAVITY;
 	die_start = -1;
 	isOnPlatform = false;
-	SetState(PARAKOOPA_STATE_WALKING);
-	vobject = new CVirtualObject(x, y + PARAKOOPA_BBOX_HEIGHT / 2);
+	SetState(PARAKOOPA_STATE_READY_JUMP);
 	preState = state;
+	canJump = true;
 }
 
 void CParakoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -88,8 +88,8 @@ void CParakoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	if (state == PARAKOOPA_STATE_JUMPING && isOnPlatform) {
-		SetState(PARAKOOPA_STATE_WALKING);
+	if (state == PARAKOOPA_STATE_JUMPING && isOnPlatform&&canJump) {
+		SetState(PARAKOOPA_STATE_READY_JUMP);
 	}
 }
 
@@ -97,16 +97,29 @@ void CParakoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	DebugOut(L"[INFO] KeyUp: %d\n", state);
 
-	if (state == PARAKOOPA_STATE_WALKING || state == PARAKOOPA_STATE_READY_JUMP) {
-		SetState(PARAKOOPA_STATE_JUMPING);
+	if (canJump) {
+		if (state == PARAKOOPA_STATE_READY_JUMP) {
+			SetState(PARAKOOPA_STATE_JUMPING);
+		}
 	}
-	if ((state == PARAKOOPA_STATE_DIE) && (GetTickCount64() - die_start > PARAKOOPA_DIE_TIMEOUT))
-	{
-		isDeleted = true;
-		return;
+	else {
+		if (((state == PARAKOOPA_STATE_DIE) || (state == PARAKOOPA_STATE_SHELL)) && (GetTickCount64() - die_start > PARAKOOPA_DIE_TIMEOUT))
+		{
+			check = GetTickCount64();
+			SetState(PARAKOOPA_STATE_HEAL);
+			//isDeleted = true;
+			//return;
+		}
+		if (state == PARAKOOPA_STATE_HEAL && GetTickCount64() - check > 3000) {
+			die_start = -1;
+			SetState(PARAKOOPA_STATE_WALKING);
+			CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+			CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
+			mario->SetIsHold(FALSE);
+		}
 	}
-
 	isOnPlatform = false;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -124,13 +137,13 @@ int CParakoopa::GetAniId() {
 				aniID = ID_ANI_PARAKOOPA_JUMP_RIGHT;
 			else aniID = ID_ANI_PARAKOOPA_JUMP_LEFT;
 		}
-		if (state == TURTLE_STATE_SPIN) {
+		if (state == PARAKOOPA_STATE_SPIN) {
 			aniID = ID_ANI_PARAKOOPA_SPIN;
 		}
-		if (state == TURTLE_STATE_HEAL) {
+		if (state == PARAKOOPA_STATE_HEAL) {
 			aniID = ID_ANI_PARAKOOPA_HEAL;
 		}
-		if (state == TURTLE_STATE_SHELL) {
+		if (state == PARAKOOPA_STATE_SHELL) {
 			aniID = ID_ANI_PARAKOOPA_DIE;
 		}
 		if (aniID == -1) aniID = ID_ANI_PARAKOOPA_IDLE;
@@ -155,6 +168,8 @@ void CParakoopa::Render()
 		aniId = GetAniId();
 	}
 
+
+
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	RenderBoundingBox();
 }
@@ -166,25 +181,29 @@ void CParakoopa::SetState(int state)
 	{
 	case PARAKOOPA_STATE_DIE:
 		die_start = GetTickCount64();
-		y += (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
+		y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		ay = 0.002F;
 		break;
 	case PARAKOOPA_STATE_WALKING:
-		y -= (TURTLE_BBOX_HEIGHT - TURTLE_BBOX_HEIGHT_DIE) / 2;
+		y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = -PARAKOOPA_WALKING_SPEED;
 		ay = 0.02f;
-		break;
-	case PARAKOOPA_STATE_READY_JUMP:
-		y -= (PARAKOOPA_READY_JUMP_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT) / 2;
 		break;
 	case PARAKOOPA_STATE_JUMPING:
 		vy = -PARAKOOPA_JUMP_SPEED_Y;
 		vx = -0.05f;
 		ay = 0.001f;
 		break;
-	case PARAKOOPA_WINGLESS_STATE_WALKING:
+	case PARAKOOPA_STATE_SPIN:
+		ay = 0.002f;
+		break;
+	case PARAKOOPA_STATE_SHELL:
+		die_start = GetTickCount64();
+		ay = 0;
+		vx = 0;
+		vy = 0;
 		break;
 	}
 }

@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "Animations.h"
 #include "Turtle.h"
+#include "Parakoopa.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
@@ -183,6 +184,7 @@ class CMario : public CGameObject
 	BOOLEAN isHold = false;
 	BOOLEAN isReleaseHold = false;
 	CTurtle* holdTurtle = nullptr;
+	CParakoopa* holdParakoopa = nullptr;
 	ULONGLONG time_kick;
 	ULONGLONG flyStart;
 	BOOLEAN isFlying;
@@ -203,6 +205,7 @@ class CMario : public CGameObject
 	void OnCollisionWithParagoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlower(LPCOLLISIONEVENT e);
 	void OnCollisionWithSpawner(LPCOLLISIONEVENT e);
+	void OnCollisionWithParakoopa(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccon();

@@ -19,6 +19,7 @@
 #include "Flower.h"
 #include "Spawner.h"
 #include "PlayScene.h"
+#include "Parakoopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -177,6 +178,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFlower(e);
 	else if (dynamic_cast<CSpawner*>(e->obj))
 		OnCollisionWithSpawner(e);
+	else if(dynamic_cast<CParakoopa*>(e->obj))
+		OnCollisionWithParakoopa(e);
+
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -211,6 +215,107 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				{
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+
+void CMario::OnCollisionWithParakoopa(LPCOLLISIONEVENT e)
+{
+	CParakoopa* parakoopa = dynamic_cast<CParakoopa*>(e->obj);
+	float tx, ty;
+	parakoopa->GetPosition(tx, ty);
+	// jump on top >> kill paragoomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		if (parakoopa->GetCanjump()) {
+			if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
+			{
+				if (parakoopa->GetState() != PARAKOOPA_STATE_WALKING) {
+					parakoopa->SetState(PARAKOOPA_STATE_WALKING);
+					parakoopa->SetCanjump(false);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+			}
+		}
+		else {
+
+		if (parakoopa->GetState() == PARAKOOPA_STATE_DIE) {
+			if (tx <= x) {
+				isKick = true;
+				time_kick = GetTickCount64();
+				e->obj->SetSpeed(-0.3F, 0);
+				parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+			}
+			else {
+				isKick = true;
+				time_kick = GetTickCount64();
+				e->obj->SetSpeed(0.3F, 0);
+				parakoopa->SetState(PARAKOOPA_STATE_SPIN);
+			}
+			vy = -0.05f;
+		}
+		else if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
+		{
+			parakoopa->SetState(PARAKOOPA_STATE_DIE);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			return;
+		}
+		}
+		/*PARAKOOPA->SetState(PARAKOOPA_STATE_SPIN);
+		isKick = true;
+		time_kick = GetTickCount64();
+		e->obj->SetSpeed(-0.25F, 0);*/
+	}
+	else // hit by PARAKOOPA
+	{
+		if (untouchable == 0)
+		{
+			if (parakoopa->GetState() != PARAKOOPA_STATE_DIE && parakoopa->GetState() != PARAKOOPA_STATE_SHELL)
+			{
+				if (level == MARIO_LEVEL_BIG)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_RACCON) {
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+		if (e->obj->GetState() == PARAKOOPA_STATE_DIE) {
+			if (e->nx > 0) {
+				if (state == MARIO_STATE_RUNNING_LEFT) {
+					isHold = true;
+					holdParakoopa = parakoopa;
+					parakoopa->SetState(PARAKOOPA_STATE_SHELL);
+				}
+				else {
+					e->obj->SetState(PARAKOOPA_STATE_SPIN);
+					isKick = true;
+					time_kick = GetTickCount64();
+					e->obj->SetSpeed(-0.25F, 0);
+				}
+
+			}
+			if (e->nx < 0) {
+				if (state == MARIO_STATE_RUNNING_RIGHT) {
+					isHold = true;
+					holdParakoopa = parakoopa;
+					parakoopa->SetState(PARAKOOPA_STATE_SHELL);
+				}
+				else {
+					isKick = true;
+					time_kick = GetTickCount64();
+					e->obj->SetState(PARAKOOPA_STATE_SPIN);
+					e->obj->SetSpeed(0.25f, 0);
 				}
 			}
 		}
