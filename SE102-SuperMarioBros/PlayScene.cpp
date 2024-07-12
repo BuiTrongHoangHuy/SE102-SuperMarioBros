@@ -18,6 +18,7 @@
 #include "Leaf.h"
 #include "Paragoomba.h"
 #include "Spawner.h"
+#include "Parakoopa.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -124,6 +125,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
+	case OBJECT_TYPE_PARAKOOPA: obj = new CParakoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
 		obj = new CBrick(x, y,type); break; 

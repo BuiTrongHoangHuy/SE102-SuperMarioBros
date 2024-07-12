@@ -18,6 +18,7 @@
 #include "Paragoomba.h"
 #include "Brick.h"
 #include "Goomba.h"
+#include "Parakoopa.h"
 #define SCENE_SECTION_UNKNOWN -1
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
@@ -118,6 +119,7 @@ void CSpawner::LoadObject(string line)
 	{
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_PARAGOOMBA: obj = new CParagoomba(x, y); break;
+	case OBJECT_TYPE_PARAKOOPA: obj = new CParakoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
 		obj = new CBrick(x, y, type); break;

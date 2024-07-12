@@ -9,7 +9,6 @@ CTurtle::CTurtle(float x, float y,int type) :CGameObject(x, y)
 	this->ax = 0;
 	this->ay = TURTLE_GRAVITY;
 	this->type = type;
-	DebugOut(L"[INFO] KeyUp: %d\n", this->type);
 	isOnPlatform = false;
 	die_start = -1;
 	vobject = new CVirtualObject(x, y + TURTLE_BBOX_HEIGHT / 2 );
