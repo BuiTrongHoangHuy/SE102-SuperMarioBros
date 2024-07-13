@@ -343,7 +343,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
 	CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
 
 
-	if (e->ny < 0&& pipe->GetType() == 3&&canTele) {
+	if (e->ny < 0&& pipe->GetType() == 4&&canTele) {
 		timeTele = GetTickCount64();
 		tlx = pipe->teleX;
 		tly = pipe->teleY;
@@ -352,7 +352,7 @@ void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
 			isInHiddenMap = true;
 	}
 	if (e->ny >0 ) {
-		if (true && pipe->GetType() == 4&&canTele) {
+		if (true && pipe->GetType() == 5&&canTele) {
 			this->SetPosition(pipe->teleX, pipe->teleY);
 			tlx = pipe->teleX;
 			tly = pipe->teleY;
@@ -1278,7 +1278,7 @@ void CMario::SetState(int state)
 			timeFly = GetTickCount64();
 			aniFly = true;
 		}
-		if (isFalling) {
+		if (isFalling &&level== MARIO_LEVEL_RACCON) {
 			vy = -0.18f;
 			timeFalling = GetTickCount64();
 			aniFalling = true;

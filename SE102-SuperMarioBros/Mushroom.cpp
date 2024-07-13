@@ -1,9 +1,10 @@
 #include "MUSHROOM.h"
 
-CMushroom::CMushroom(float x, float y) :CGameObject(x, y)
+CMushroom::CMushroom(float x, float y,int type) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = MUSHROOM_GRAVITY;
+	this->type = type;
 	posY = y;
 	die_start = -1;
 	SetState(MUSHROOM_STATE_APPEAR);
@@ -52,7 +53,13 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMushroom::Render()
 {
-	int aniId = ID_ANI_MUSHROOM;
+	int aniId = -1;
+	if (type == 1) {
+		aniId = ID_ANI_MUSHROOM;
+	}
+	else if (type == 2) {
+		aniId = ID_ANI_GREEN_MUSHROOM;
+	}
 
 	//CSprites* m = CSprites::GetInstance();
 	//m->Get(ID_ANI_MUSHROOM)->Draw(x, y);
