@@ -10,6 +10,7 @@
 #define BUTTON_BBOX_HEIGHT_DIE 7
 
 #define BUTTON_DIE_TIMEOUT 500
+#define BUTTON_RESPAWN_TIMEOUT 5000
 
 #define BUTTON_STATE_WALKING 100
 #define BUTTON_STATE_DIE 200
@@ -23,7 +24,9 @@ protected:
 	float ax;
 	float ay;
 	ULONGLONG die_start;
+	ULONGLONG timeRespawn;
 	BOOLEAN isClick = true;
+	BOOLEAN isRespawn = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

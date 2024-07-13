@@ -31,4 +31,7 @@ public:
 	int IsCollidable() { return 1; };
 	virtual void SetState(int state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	int GetTypeCoin(){
+		return typeCoin;
+	}
 };

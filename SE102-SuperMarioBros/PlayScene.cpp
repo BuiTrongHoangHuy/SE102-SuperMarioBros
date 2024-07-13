@@ -451,9 +451,24 @@ void CPlayScene::ChangeCoin() {
 			else {
 				float x, y;
 				brick->GetPosition(x, y);
-				LPGAMEOBJECT coin = new CCoin(x, y,0);
+				LPGAMEOBJECT coin = new CCoin(x, y,3);
 				objects.push_back(coin);
 				brick->Delete();
+			}
+		}
+	}
+}
+void CPlayScene::Respawn() {
+	for (auto& object : objects) {
+		if (dynamic_cast<CCoin*>(object)) {
+			CCoin* coin = dynamic_cast<CCoin*>(object);
+			if (coin->GetTypeCoin() != 3) continue;
+			else {
+				float x, y;
+				coin->GetPosition(x, y);
+				LPGAMEOBJECT brick = new CBrick(x, y, 2,0);
+				objects.push_back(brick);
+				coin->Delete();
 			}
 		}
 	}

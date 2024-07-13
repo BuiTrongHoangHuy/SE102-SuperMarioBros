@@ -57,13 +57,21 @@ void CButton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 
 		//isDeleted = true;
+		timeRespawn = GetTickCount64();
 		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
 		p->ChangeCoin();
 		isClick = false;
+		isRespawn = true;
 		return;
 	}
-
+	if ((state == BUTTON_STATE_DIE) && (GetTickCount64() - timeRespawn > BUTTON_RESPAWN_TIMEOUT)&& isRespawn ){
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+			p->Respawn();
+			isRespawn = false;
+			return;
+	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

@@ -35,6 +35,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 	void ChangeCoin();
+	void Respawn();
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void Clear();
