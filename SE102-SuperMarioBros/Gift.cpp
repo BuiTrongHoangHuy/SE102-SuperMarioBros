@@ -94,7 +94,7 @@ void CGift::OpenGift() {
 			}
 		}
 		else {
-			LPGAMEOBJECT mushroom = new CMushroom(x, y);
+			LPGAMEOBJECT mushroom = new CMushroom(x, y,1);
 			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
 			if (this != nullptr) {
@@ -110,7 +110,14 @@ void CGift::OpenGift() {
 		if (this != nullptr) {
 			p->AddFowardNewObject(coin, this);
 		}
-		
+	}
+	else if (this->typeGift == 2) {
+		LPGAMEOBJECT mushroom = new CMushroom(x, y,2);
+		LPSCENE s = CGame::GetInstance()->GetCurrentScene();
+		LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);
+		if (this != nullptr) {
+			p->AddFowardNewObject(mushroom, this);
+		}
 	}
 }
 

@@ -14,6 +14,7 @@
 #define MUSHROOM_STATE_EATEN 300
 
 #define ID_ANI_MUSHROOM 145000
+#define ID_ANI_GREEN_MUSHROOM 145001
 
 
 class CMushroom : public CGameObject
@@ -23,7 +24,7 @@ protected:
 	float ay;
 	float posY;
 	ULONGLONG die_start;
-
+	int type;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -35,6 +36,6 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
-	CMushroom(float x, float y);
+	CMushroom(float x, float y,int type);
 	virtual void SetState(int state);
 };

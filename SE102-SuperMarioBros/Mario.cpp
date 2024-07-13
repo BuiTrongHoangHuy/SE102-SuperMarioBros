@@ -1278,7 +1278,7 @@ void CMario::SetState(int state)
 			timeFly = GetTickCount64();
 			aniFly = true;
 		}
-		if (isFalling) {
+		if (isFalling &&level== MARIO_LEVEL_RACCON) {
 			vy = -0.18f;
 			timeFalling = GetTickCount64();
 			aniFalling = true;
