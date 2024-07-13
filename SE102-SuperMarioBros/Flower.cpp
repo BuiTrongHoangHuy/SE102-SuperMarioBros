@@ -10,7 +10,7 @@ CFlower::CFlower(float x, float y,int type) : CGameObject(x, y)
     this->x = x;
     this->y = y;
     this->startY = y;
-    if (type == TYPE_FLOWER_SHOOT) {
+    if (type == TYPE_FLOWER_SHOOT||type == TYPE_GREEN_FLOWER_SHOOT) {
         this->endY = y - FLOWER_BBOX_HEIGHT;
     }
     else {
@@ -24,7 +24,7 @@ CFlower::CFlower(float x, float y,int type) : CGameObject(x, y)
 
 void CFlower::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-    if (type == TYPE_FLOWER_SHOOT) {
+    if (type == TYPE_FLOWER_SHOOT||type==TYPE_GREEN_FLOWER_SHOOT) {
         left = x - FLOWER_BBOX_WIDTH / 2;
         top = y - FLOWER_BBOX_HEIGHT / 2;
         right = left + FLOWER_BBOX_WIDTH;
@@ -61,7 +61,7 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
             SetState(FLOWER_STATE_APPEARING);
         }
     } else if (state == FLOWER_STATE_VISIBLE) {
-        if(type==TYPE_FLOWER_SHOOT){
+        if(type==TYPE_FLOWER_SHOOT ||type == TYPE_GREEN_FLOWER_SHOOT){
             if ((marioX < x - 130) || (marioX > x + 130)){
                 SetState(FLOWER_STATE_DISAPPEARING);
                 isHidden = false;
@@ -196,6 +196,34 @@ int CFlower::GetAniID() {
             }
             else if (marioX > x && marioY < y) {
                 aniID = ID_ANI_FLOWER_READY_SHOOT_RIGHT_TOP;
+            }
+        }
+    }
+    else if (type == TYPE_GREEN_FLOWER_SHOOT) {
+        if (marioX <= x && marioY >= y) {
+            aniID = ID_ANI_GREEN_FLOWER_APPEAR_LEFT_BOT;
+        }
+        else if (marioX <= x && marioY < y) {
+            aniID = ID_ANI_GREEN_FLOWER_APPEAR_LEFT_TOP;
+        }
+        else if (marioX > x && marioY >= y) {
+            aniID = ID_ANI_GREEN_FLOWER_APPEAR_RIGHT_BOT;
+        }
+        else if (marioX > x && marioY < y) {
+            aniID = ID_ANI_GREEN_FLOWER_APPEAR_RIGHT_TOP;
+        }
+        if (state == FLOWER_STATE_VISIBLE) {
+            if (marioX <= x && marioY >= y) {
+                aniID = ID_ANI_GREEN_FLOWER_READY_SHOOT_LEFT_BOT;
+            }
+            else if (marioX <= x && marioY < y) {
+                aniID = ID_ANI_GREEN_FLOWER_READY_SHOOT_LEFT_TOP;
+            }
+            else if (marioX > x && marioY >= y) {
+                aniID = ID_ANI_GREEN_FLOWER_READY_SHOOT_RIGHT_BOT;
+            }
+            else if (marioX > x && marioY < y) {
+                aniID = ID_ANI_GREEN_FLOWER_READY_SHOOT_RIGHT_TOP;
             }
         }
     }
