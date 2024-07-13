@@ -85,7 +85,7 @@ void CGift::OpenGift() {
 	CPlayScene* scene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	CMario* mario = dynamic_cast<CMario*>(scene->GetPlayer());
 	if (this->typeGift == 1) {
-		if (mario->GetLevel() == MARIO_LEVEL_BIG) {
+		if (mario->GetLevel() == MARIO_LEVEL_BIG||mario->GetLevel()==MARIO_LEVEL_RACCON) {
 			LPGAMEOBJECT leaf = new CLeaf(x, y);
 			LPSCENE s = CGame::GetInstance()->GetCurrentScene();
 			LPPLAYSCENE p = dynamic_cast<CPlayScene*>(s);

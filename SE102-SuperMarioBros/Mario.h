@@ -224,6 +224,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPipe(LPCOLLISIONEVENT e);
 	void OnCollisionWithGlass(LPCOLLISIONEVENT e);
 	void OnCollisionWithButton(LPCOLLISIONEVENT e);
+	void OnCollisionWithRoulette(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccon();

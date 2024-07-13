@@ -21,6 +21,7 @@
 #include "PlayScene.h"
 #include "Parakoopa.h"
 #include "Button.h"
+#include "Roulette.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -299,6 +300,13 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGlass(e);
 	else if (dynamic_cast<CButton*>(e->obj))
 		OnCollisionWithButton(e);
+	else if (dynamic_cast<CRoulette*>(e->obj))
+		OnCollisionWithRoulette(e);
+}
+void CMario::OnCollisionWithRoulette(LPCOLLISIONEVENT e) {
+
+	e->obj->SetSpeed(0, -0.2f);
+	coin++;
 }
 void CMario::OnCollisionWithButton(LPCOLLISIONEVENT e) {
 	CButton* button = dynamic_cast<CButton*>(e->obj);
