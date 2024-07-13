@@ -65,6 +65,8 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 		CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 		if (e->nx != 0) {
 			goomba->SetState(GOOMBA_STATE_DIE);
+			e->obj->SetSpeed(0, -0.3f);
+
 		}
 		}
 	}
@@ -75,6 +77,8 @@ void CTurtle::OnCollisionWith(LPCOLLISIONEVENT e)
 
 			if (e->nx != 0) {
 				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+				e->obj->SetSpeed(0, -0.3f);
+
 			}
 		}
 		
@@ -168,8 +172,8 @@ void CTurtle::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	vobject->Render();
-	RenderBoundingBox();
+	//vobject->Render();
+	//RenderBoundingBox();
 }
 
 void CTurtle::SetState(int state)

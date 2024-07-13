@@ -15,10 +15,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
-		mario->pressedS = true;
+		mario->canTele = true;
 		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);
+		mario->canTele = true;
 		break;
 	case DIK_1:
 		mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -38,9 +39,6 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_A:
 		mario->SetState(MARIO_STATE_ATTACK);
 		break;
-	case DIK_W:
-		mario->pressedW = true;
-		break;
 	}
 }
 
@@ -53,9 +51,11 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_S:
 		mario->SetState(MARIO_STATE_RELEASE_JUMP);
+		mario->canTele = false;
 		break;
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
+		mario->canTele = false;
 		break;
 	case DIK_A:
 		if (mario->GetIsHold()) {

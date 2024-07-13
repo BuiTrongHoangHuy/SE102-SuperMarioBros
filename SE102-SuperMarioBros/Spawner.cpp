@@ -38,7 +38,7 @@ void CSpawner::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CSpawner::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void CSpawner::RenderBoundingBox()
 {

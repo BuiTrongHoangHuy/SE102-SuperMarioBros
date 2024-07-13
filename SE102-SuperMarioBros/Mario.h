@@ -40,6 +40,7 @@
 #define MARIO_STATE_FALLING		1000
 #define MARIO_STATE_GLIDE_UP	1200
 #define MARIO_STATE_ATTACK 1100
+#define MARIO_STATE_TELE 1300
 #define MARIO_ATTACK_DURATION 1000
 
 #pragma region ANIMATION_ID
@@ -183,6 +184,8 @@ class CMario : public CGameObject
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 
+	float tlx;
+	float tly;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -202,6 +205,8 @@ class CMario : public CGameObject
 	BOOLEAN isFalling = false;
 	BOOLEAN aniFalling = false;
 	ULONGLONG timeFalling= 0;
+	ULONGLONG timeTele = 0;
+
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -225,6 +230,7 @@ class CMario : public CGameObject
 
 public:
 	BOOLEAN isInHiddenMap = false;
+	BOOLEAN isInArea = false;
 	BOOLEAN isTele = false;
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -244,13 +250,11 @@ public:
 		runningStart = 0;
 		attackStart = 0;
 		isAttacking = false;
-		pressedS = false;
-		pressedW = false;
 	}
 	BOOLEAN isAttacking;
-	BOOLEAN pressedS;
-	BOOLEAN pressedW;
 	ULONGLONG attackStart;
+	BOOLEAN canTele = false;
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);

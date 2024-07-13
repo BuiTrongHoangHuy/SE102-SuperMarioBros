@@ -19,6 +19,7 @@
 #include "Paragoomba.h"
 #include "Spawner.h"
 #include "Parakoopa.h"
+#include "Roulette.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -232,7 +233,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CSpawner(x, y, r, b, filepath);
 		break;
 	}
+	case OBJECT_TYPE_ROULETTE: {
+		obj = new CRoulette(x, y);
+		break;
 
+	}
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
 		return;

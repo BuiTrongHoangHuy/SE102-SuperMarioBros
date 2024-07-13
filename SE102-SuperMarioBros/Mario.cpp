@@ -27,8 +27,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (isOnPlatform) {
 		isFalling = false;
 	}
-	pressedS = false;
-	pressedW = false;
 	isTele = false;
 	DebugOut(L"[INFO] KeyUp: %d\n", state);
 	DebugOut(L"[INFO] isattacking: %d\n", isAttacking);
@@ -51,7 +49,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isAttacking)
 	{
-		if (GetTickCount64() - attackStart > 250)
+		if (GetTickCount64() - attackStart > 400)
 		{
 			isAttacking = false;
 		}
@@ -321,6 +319,8 @@ void CMario::OnCollisionWithGlass(LPCOLLISIONEVENT e) {
 	if (brick->type != 2)
 		return;
 	else {
+		if (e->nx != 0) {
+
 		if (isAttacking) {
 			if (brick->GetState() != BRICK_STATE_DIE)
 			{
@@ -328,22 +328,31 @@ void CMario::OnCollisionWithGlass(LPCOLLISIONEVENT e) {
 				e->obj->SetSpeed(0, -0.3f);
 			}
 		}
+		}
 	}
 }
 void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e) {
 	CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
 
-	if (e->ny < 0&& pipe->GetType() == 3) {
-		
+
+	if (e->ny < 0&& pipe->GetType() == 3&&canTele) {
+		timeTele = GetTickCount64();
+		tlx = pipe->teleX;
+		tly = pipe->teleY;
 			this->SetPosition(pipe->teleX,pipe->teleY);
 			isTele = true;
 			isInHiddenMap = true;
 	}
 	if (e->ny >0 ) {
-		if (true && pipe->GetType() == 4) {
+		if (true && pipe->GetType() == 4&&canTele) {
 			this->SetPosition(pipe->teleX, pipe->teleY);
+			tlx = pipe->teleX;
+			tly = pipe->teleY;
+			timeTele = GetTickCount64();
 				isTele = true;
+				isInArea = true;
 				isInHiddenMap = false;
+
 		}
 	}
 }
@@ -1310,6 +1319,10 @@ void CMario::SetState(int state)
 			}
 		}
 		break;
+	}
+	case MARIO_STATE_TELE: {
+		isTele = true;
+		timeTele = GetTickCount64();
 	}
 	case MARIO_STATE_IDLE:
 		/*if (maxVx > 0) {

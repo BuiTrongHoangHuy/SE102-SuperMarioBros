@@ -109,7 +109,7 @@ void CParagoomba::Render()
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CParagoomba::SetState(int state)
@@ -119,10 +119,10 @@ void CParagoomba::SetState(int state)
 	{
 	case PARAGOOMBA_STATE_DIE:
 		die_start = GetTickCount64();
-		y += (PARAGOOMBA_BBOX_HEIGHT - PARAGOOMBA_BBOX_HEIGHT_DIE) / 2;
+		y -= (PARAGOOMBA_BBOX_HEIGHT - PARAGOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		ay = 0.001f;
 		break;
 	case PARAGOOMBA_STATE_WALKING:
 		vx = -PARAGOOMBA_WALKING_SPEED ;
